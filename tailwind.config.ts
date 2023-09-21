@@ -12,9 +12,26 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "glass-gradient":
+          "linear-gradient(180deg, rgba(140, 155, 249, 0.5), rgba(255, 255, 255, 0))",
       },
       backgroundColor: {
-        "custom-blue": "#242636", // Add this line. Use any hex value you desire.
+        "dark-blue": "#1E2C49", // Add this line. Use any hex value you desire.
+        glass: "rgba(255, 255, 255, 0.25)",
+      },
+      colors: {
+        "green-dim": "#DAEBE7",
+        "nav-blue": "#567CCA",
+      },
+      borderRadius: {
+        xl: "20px",
+      },
+      boxShadow: {
+        glass: "0 4px 24px rgba(0, 0, 0, 0.25)",
+        "nav-shadow": "0 4px 4px rgba(86, 124, 202, 0.5)",
+      },
+      backdropFilter: {
+        blur: "blur(40px)",
       },
       fontFamily: {
         exo: ["Exo", "sans-serif"], // Adding the Exo font

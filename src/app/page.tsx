@@ -19,9 +19,8 @@ export default function Home() {
         <>
         <Navbar />
         <main className="bg-dark-blue flex flex-col items-center justify-center min-h-screen p-24">
-            <p className="text-2xl mb-8 text-white">Join the Software Development AI Revolution</p>
-            
-            <div className="w-full max-w-lg">
+
+            {/* <div className="w-full max-w-lg">
                 <input 
                     className="border p-2 w-full mb-4"
                     type="email" 
@@ -35,7 +34,7 @@ export default function Home() {
                 >
                     Join Waiting List
                 </button>
-            </div>
+            </div> */}
             <LandingSection />
         </main>
         </>

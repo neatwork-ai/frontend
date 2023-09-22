@@ -16,7 +16,7 @@ const config: Config = {
           "linear-gradient(180deg, rgba(140, 155, 249, 0.5), rgba(255, 255, 255, 0))",
       },
       backgroundColor: {
-        "dark-blue": "#1E2C49", // Add this line. Use any hex value you desire.
+        "dark-blue": "#1E2C49",
         glass: "rgba(255, 255, 255, 0.25)",
       },
       colors: {

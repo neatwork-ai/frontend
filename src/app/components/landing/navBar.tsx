@@ -8,7 +8,7 @@ const Navbar = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
 
   return (
-    <nav className="fixed top-0 w-full z-50 flex justify-between items-center p-4 bg-dark-blue-800">
+    <nav className="fixed top-0 w-full z-50 flex justify-between items-center p-8 px-80 bg-dark-blue">
       <div className="flex items-center">
         <Image 
           src="/assets/white_transparent.svg" 

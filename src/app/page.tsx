@@ -18,8 +18,8 @@ export default function Home() {
     return (
         <>
         <Navbar />
-        <main className="bg-dark-blue flex flex-col items-center justify-center min-h-screen p-24">
-
+        <main className="bg-dark-blue flex flex-col justify-center min-h-screen">
+            
             {/* <div className="w-full max-w-lg">
                 <input 
                     className="border p-2 w-full mb-4"

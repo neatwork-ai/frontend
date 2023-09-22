@@ -7,13 +7,13 @@ import Navbar from './components/landing/navBar';
 import LandingSection from './components/landing/landing';
 
 export default function Home() {
-    const [email, setEmail] = useState('');
+    // const [email, setEmail] = useState('');
 
-    const handleEmailSignup = () => {
-        // Handle email signup logic here.
-        // For now, just logging to the console.
-        console.log(`Email ${email} signed up!`);
-    };
+    // const handleEmailSignup = () => {
+    //     // Handle email signup logic here.
+    //     // For now, just logging to the console.
+    //     console.log(`Email ${email} signed up!`);
+    // };
 
     return (
         <>

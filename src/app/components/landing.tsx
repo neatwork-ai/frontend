@@ -1,14 +1,8 @@
-"use client";
-
-import React, { useEffect, useState } from 'react';
-import Image from "next/image";
-import GlassButton from './components/download';
-import Navbar from './components/navBar';
-import LandingSection from './components/landing';
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, useAnimation } from 'framer-motion';
-import AutoPlayVideo from './components/video';
 
-export default function Home() {
+const LandingSection = () => {
     const controls = useAnimation();
     const [scrollY, setScrollY] = useState(0);
 
@@ -52,21 +46,15 @@ export default function Home() {
     }, [scrollY, controls]);
 
     return (
-        <>
-        <Navbar />
-        <main className="bg-dark-blue flex flex-col justify-center min-h-screen">
-            <div className="flex flex-col md:flex-row items-center justify-between h-screen bg-dark-blue px-80">
-                <div className="fixed md:static flex flex-col w-full md:w-auto text-center md:text-left mb-10 md:mb-0 justify-start" id="slogan">
-                    <div className="flex flex-col w-full md:w-auto text-center md:text-left mb-10 md:mb-0 justify-start">
-                    <h1 style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'pre-wrap' }} className="text-4xl font-bold">
-                        <span style={{ color: '#DFEAFF' }}>Turn your IDE into an {'\n'}</span>
-                        <span style={{ color: '#5B89FF' }}>AI </span>
-                        <span style={{ color: '#DAEBE7' }}>Software Engineer</span>
-                    </h1>
-                    </div>
-                </div>
-                <div className="relative w-full md:w-auto justify-end" id="logo">
-                    <motion.div 
+        <div className="flex flex-col md:flex-row items-center justify-between h-screen bg-dark-blue px-80">
+            <div className="flex flex-col w-full md:w-auto text-center md:text-left mb-10 md:mb-0 justify-start">
+                <h1 style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'pre-wrap' }} className="text-4xl font-bold">
+                    <span style={{ color: '#DFEAFF' }}>Turn your IDE into an {'\n'}</span>
+                    <span style={{ color: '#5B89FF' }}>AI </span>
+                    <span style={{ color: '#DAEBE7' }}>Software Engineer</span>
+                </h1>
+            </div>
+            <motion.div 
                 className="relative w-full md:w-auto justify-end"
                 animate={rotationAnimation}
                 transition={rotationTransition}
@@ -84,12 +72,8 @@ export default function Home() {
                     />
                 </motion.div>
             </motion.div>
-                </div>
-
-            </div>
-            
-            <AutoPlayVideo />
-        </main>
-        </>
+        </div>
     );
-}
+};
+
+export default LandingSection;

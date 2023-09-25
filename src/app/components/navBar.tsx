@@ -1,22 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import GlassButton from './download';
 import Image from 'next/image';
 
 import { useState } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
 
+  const controls = useAnimation();
+
+  useEffect(() => {
+    // Start the rotation
+    controls.start({
+      rotate: [0, 360],
+      transition: {
+        repeat: Infinity,
+        duration: 10,
+        ease: "linear"
+      }
+    });
+  }, [controls]);
+
   return (
     <nav className="fixed top-0 w-full z-50 flex justify-between items-center p-8 px-80 bg-dark-blue">
       <div className="flex items-center">
-        <Image 
-          src="/assets/white_transparent.svg" 
-          alt="Company Logo" 
-          width={180}  // specify a width
-          height={42}  // and a height
-          className="mr-2" 
-        />
+        <motion.div className="relative w-10 h-10" animate={controls}>
+          <Image 
+             src="/assets/light-logo.svg" 
+             alt="Company Logo" 
+             layout="fill"
+             objectFit="contain"
+          />
+        </motion.div>
+        <span className="text-white ml-2">Neatwork.Ai</span>
       </div>
       <div className="flex items-center space-x-4">
         <a 

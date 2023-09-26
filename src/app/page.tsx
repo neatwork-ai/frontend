@@ -8,35 +8,42 @@ export default function Home() {
     const [targetY, setTargetY] = useState(0);
     const controls = useAnimation();
     const lastY = useRef(0);
+    const rafRef = useRef<number | null>(null);
 
     useEffect(() => {
         const handleWheel = (e: WheelEvent) => {
-            // Define the maximum allowable offset
-            const MAX_Y = -250; // Adjust this value to your preference
-            let newTarget = lastY.current - e.deltaY *1.2; // Multiplier to control sensitivity
+            const MAX_Y = -250;
+            let newTarget = lastY.current - e.deltaY * 1.2;
 
-            // Ensure we don't scroll past the max value
             newTarget = Math.max(MAX_Y, newTarget);
-            newTarget = Math.min(0, newTarget); // Ensuring we don't scroll in the reverse direction
+            newTarget = Math.min(0, newTarget);
 
             setTargetY(newTarget);
             lastY.current = newTarget;
         };
 
         const updatePosition = () => {
-            // Lerp formula: newValue = (target - current) * factor + current
-            const newY = (targetY - lastY.current) * 0.5 + lastY.current;
-            controls.start({ y: newY });
-            lastY.current = newY;
-
-            requestAnimationFrame(updatePosition);
+            const difference = targetY - lastY.current;
+            
+            // Check if the difference is within a small threshold (e.g., 1) 
+            if (Math.abs(difference) < 1) { 
+                controls.set({ y: targetY });
+                cancelAnimationFrame(rafRef.current!);
+            } else {
+                const newY = difference * 0.5 + lastY.current;
+                controls.start({ y: newY });
+                lastY.current = newY;
+                rafRef.current = requestAnimationFrame(updatePosition);
+            }
         };
+        
 
         window.addEventListener("wheel", handleWheel);
-        requestAnimationFrame(updatePosition);
+        rafRef.current = requestAnimationFrame(updatePosition);
 
         return () => {
             window.removeEventListener("wheel", handleWheel);
+            cancelAnimationFrame(rafRef.current!);
         };
     }, [targetY, controls]);
 

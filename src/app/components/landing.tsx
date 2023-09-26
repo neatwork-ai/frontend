@@ -31,8 +31,6 @@ const LandingSection = () => {
     }, []);
 
     useEffect(() => {
-        // For demonstration purposes, I'm setting the maximum scroll value at which the logo vanishes to 500.
-        // You can adjust this value based on your requirements.
         const maxScroll = 500;
     
         const scale = Math.max(1 - scrollY / maxScroll, 0); // Scale will reduce linearly with scroll

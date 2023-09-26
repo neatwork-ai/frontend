@@ -13,7 +13,7 @@ export default function Home() {
         const handleWheel = (e: WheelEvent) => {
             // Define the maximum allowable offset
             const MAX_Y = -250; // Adjust this value to your preference
-            let newTarget = lastY.current - e.deltaY; // Multiplier to control sensitivity
+            let newTarget = lastY.current - e.deltaY *1.2; // Multiplier to control sensitivity
 
             // Ensure we don't scroll past the max value
             newTarget = Math.max(MAX_Y, newTarget);
@@ -25,7 +25,7 @@ export default function Home() {
 
         const updatePosition = () => {
             // Lerp formula: newValue = (target - current) * factor + current
-            const newY = (targetY - lastY.current) * 0.1 + lastY.current;
+            const newY = (targetY - lastY.current) * 0.5 + lastY.current;
             controls.start({ y: newY });
             lastY.current = newY;
 

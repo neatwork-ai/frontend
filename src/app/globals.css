@@ -24,6 +24,12 @@
 }
 
 @layer components {
+  .logo-font {
+    @apply text-white hover:text-gray-300 font-exo text-2xl;
+  }
+}
+
+@layer components {
   .navbar-button {
     @apply text-white hover:text-gray-300 font-exo;
   }
@@ -59,4 +65,5 @@ body {
     )
     rgb(var(--background-start-rgb));
     font-family: 'Exo', sans-serif;
+    overflow-x: hidden;
 }

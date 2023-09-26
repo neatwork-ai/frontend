@@ -33,7 +33,7 @@ const Navbar = () => {
              objectFit="contain"
           />
         </motion.div>
-        <span className="text-white ml-2">Neatwork.Ai</span>
+        <span className="logo-font ml-2">Neatwork.Ai</span>
       </div>
       <div className="flex items-center space-x-4">
         <a 

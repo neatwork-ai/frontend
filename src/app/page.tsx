@@ -1,42 +1,72 @@
 "use client";
 
-import React, { useState } from 'react';
-import Image from "next/image";
-import GlassButton from './components/landing/download';
-import Navbar from './components/landing/navBar';
-import LandingSection from './components/landing/landing';
+import React, { useEffect, useState, useRef } from 'react';
+import Navbar from './components/navBar';
+import { motion, useAnimation } from 'framer-motion';
+import AutoPlayVideo from './components/video';
 
 export default function Home() {
-    // const [email, setEmail] = useState('');
+    const [targetY, setTargetY] = useState(0);
+    const sloganControls = useAnimation();
+    const videoControls = useAnimation();
+    const lastY = useRef(0);
+    const rafRef = useRef<number | null>(null);
 
-    // const handleEmailSignup = () => {
-    //     // Handle email signup logic here.
-    //     // For now, just logging to the console.
-    //     console.log(`Email ${email} signed up!`);
-    // };
+    useEffect(() => {
+        const handleWheel = (e: WheelEvent) => {
+            const MAX_Y = -250;
+            let newTarget = lastY.current - e.deltaY * 1.2;
+
+            newTarget = Math.max(MAX_Y, newTarget);
+            newTarget = Math.min(0, newTarget);
+
+            setTargetY(newTarget);
+            lastY.current = newTarget;
+        };
+
+        window.addEventListener("wheel", handleWheel);
+
+        // Animation for the slogan
+        sloganControls.start({ y: targetY });
+
+        // Animation for the video
+        const opacity = Math.min(1, Math.abs(targetY / 250));
+        const scale = 0.5 + (0.5 * opacity);
+        videoControls.start({ opacity, scale });
+
+        return () => {
+            window.removeEventListener("wheel", handleWheel);
+        };
+    }, [targetY, sloganControls, videoControls]);
 
     return (
         <>
-        <Navbar />
-        <main className="bg-dark-blue flex flex-col justify-center min-h-screen">
-            
-            {/* <div className="w-full max-w-lg">
-                <input 
-                    className="border p-2 w-full mb-4"
-                    type="email" 
-                    placeholder="Enter your email for the waiting list"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                />
-                <button 
-                    className="bg-blue-500 text-white p-2 w-full"
-                    onClick={handleEmailSignup}
+            <Navbar />
+            <main className="bg-dark-blue flex flex-col justify-center min-h-screen relative">
+                {/* Slogan */}
+                <motion.div
+                    className="flex flex-col items-center justify-center h-auto bg-dark-blue px-80"
+                    animate={sloganControls}
                 >
-                    Join Waiting List
-                </button>
-            </div> */}
-            <LandingSection />
-        </main>
+                    <h1 
+                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'pre-wrap' }} 
+                        className="text-4xl font-bold z-10"
+                    >
+                        <span style={{ color: '#DFEAFF' }}>Turn your IDE into an {'\n'}</span>
+                        <span style={{ color: '#5B89FF' }}>AI </span>
+                        <span style={{ color: '#DAEBE7' }}>Software Engineer</span>
+                    </h1>
+                </motion.div>
+
+                {/* Video */}
+                <motion.div 
+                    className="absolute top-1/2 left-0 w-full flex items-center justify-center mt-[-10%]"
+                    initial={{ opacity: 0, scale: 0.5 }} // setting initial values
+                    animate={videoControls}
+                >
+                    <AutoPlayVideo />
+                </motion.div>
+            </main>
         </>
     );
 }

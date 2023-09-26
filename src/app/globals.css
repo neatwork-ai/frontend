@@ -8,6 +8,7 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -21,6 +22,12 @@
   src: url('/font/Exo/static/Exo-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
+}
+
+@layer components {
+  .logo-font {
+    @apply text-white hover:text-gray-300 font-exo text-2xl;
+  }
 }
 
 @layer components {
@@ -59,4 +66,10 @@ body {
     )
     rgb(var(--background-start-rgb));
     font-family: 'Exo', sans-serif;
+    overflow: hidden; /* Hide scrollbars */
+}
+
+.video-wrapper {
+  width: 100%;
+  max-width: 800px;
 }

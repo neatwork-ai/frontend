@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import GlassButton from './download';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { motion, useAnimation } from 'framer-motion';
 
-const Navbar = () => {
+
+const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Assuming 768px as the breakpoint for mobile view
@@ -40,7 +41,7 @@ const Navbar = () => {
   }, [controls]);
 
   return (
-    <nav className="fixed top-0 w-full z-50 flex justify-between md:flex-row items-center p-8 md:px-80 bg-green-800">
+    <nav ref={ref} className="fixed top-0 w-full z-50 flex justify-between md:flex-row items-center p-8 md:px-80 bg-green-800">
       <div className="flex items-center bg-red-800">
         <motion.div className="relative w-10 h-10" animate={controls}>
           <Image 
@@ -146,6 +147,7 @@ const Navbar = () => {
       )}
     </nav>
   );
-};
+});
 
+Navbar.displayName = 'Navbar';
 export default Navbar;

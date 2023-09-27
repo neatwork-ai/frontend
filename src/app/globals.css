@@ -65,8 +65,19 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-    font-family: 'Exo', sans-serif;
-    overflow: hidden; /* Hide scrollbars */
+  font-family: 'Exo', sans-serif;
+  overflow: hidden; /* Hide scrollbars */
+  display: flex; /* Flexbox declaration */
+  flex-direction: column; /* Arrange children vertically */
+}
+
+nav {
+  flex-shrink: 0; /* Prevent navbar from shrinking */
+}
+
+.main-content {
+  flex-grow: 1; /* Allow content to take up remaining space */
+  overflow-y: auto; /* Enable scrolling for content */
 }
 
 .video-wrapper {

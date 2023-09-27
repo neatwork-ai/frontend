@@ -23,8 +23,8 @@ const Navbar = () => {
   }, [controls]);
 
   return (
-    <nav className="fixed top-0 w-full z-50 flex flex-col md:flex-row justify-center items-center p-8 md:px-80">
-      <div className="flex items-center">
+    <nav className="fixed top-0 w-full z-50 flex justify-between flex-col md:flex-row items-center p-8 md:px-80 bg-green-800">
+      <div className="flex items-center flex-shrink-0 bg-red-800">
         <motion.div className="relative w-10 h-10" animate={controls}>
           <Image 
              src="/assets/light-logo.svg" 
@@ -35,7 +35,7 @@ const Navbar = () => {
         </motion.div>
         <span className="logo-font ml-2">Neatwork.Ai</span>
       </div>
-      <div className="flex items-center space-x-4 mt-4 md:mt-0">
+      <div className="flex items-center space-x-4 mt-4 md:mt-0 bg-blue-800">
         <a 
           href="#neatcoder" 
           className={`navbar-button ${activeLink === 'neatcoder' ? 'active' : ''}`}

@@ -45,16 +45,15 @@ export default function Home() {
             <main className="bg-dark-blue flex flex-col justify-center min-h-screen relative">
                 {/* Slogan */}
                 <motion.div
-                    className="flex flex-col items-center justify-center h-auto bg-dark-blue px-80"
+                    className="flex flex-col items-center justify-center h-auto bg-dark-blue md:px-80"
                     animate={sloganControls}
                 >
                     <h1 
-                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'pre-wrap' }} 
+                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap' }} 
                         className="text-4xl font-bold z-10"
                     >
-                        <span style={{ color: '#DFEAFF' }}>Turn your IDE into an {'\n'}</span>
-                        <span style={{ color: '#5B89FF' }}>AI </span>
-                        <span style={{ color: '#DAEBE7' }}>Software Engineer</span>
+                        <span style={{ color: '#DFEAFF' }}>Turn your IDE into an</span><br />
+                        <span><span style={{ color: '#5B89FF' }}>AI</span> <span style={{ color: '#DAEBE7' }}>software engineer</span></span>
                     </h1>
                 </motion.div>
 

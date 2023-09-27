@@ -23,7 +23,7 @@ const Navbar = () => {
   }, [controls]);
 
   return (
-    <nav className="fixed top-0 w-full z-50 flex justify-between items-center p-8 md:px-80">
+    <nav className="fixed top-0 w-full z-50 flex justify-between items-center p-8 md:px-80 bg-green-800">
       <div className="flex items-center">
         <motion.div className="relative w-10 h-10" animate={controls}>
           <Image 

@@ -88,11 +88,11 @@ export default function Home() {
         <>
             <div ref={parentRef}>
             <Navbar ref={navBarRef} />
-            <main className="main-content bg-dark-blue flex flex-col justify-center min-h-screen relative">
+            <main className="main-content bg-gradient-dark-blue flex flex-col justify-center min-h-screen relative">
                 {/* Slogan */}
                 <motion.div
                     ref={sloganRef}
-                    className="flex flex-col items-center justify-center h-auto bg-dark-blue md:px-80"
+                    className="flex flex-col items-center justify-center h-auto md:px-80"
                     animate={sloganControls}
                 >
                     <h1 

@@ -9,6 +9,9 @@ let maxAbsoluteShift: number;
 let currentSloganPosition: number;
 
 export default function Home() {
+    const [initialAnimationComplete, setInitialAnimationComplete] = useState(false);
+
+
     const [targetY, setTargetY] = useState(0);
     const sloganControls = useAnimation();
     const videoControls = useAnimation();
@@ -99,8 +102,8 @@ export default function Home() {
                         style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap' }} 
                         className="text-4xl font-bold z-10"
                     >
-                        <span style={{ color: '#DFEAFF' }}>Turn your IDE into an</span><br />
-                        <span><span style={{ color: '#5B89FF' }}>AI</span> <span style={{ color: '#DAEBE7' }}>software engineer</span></span>
+                        <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
+                        <span><span style={{ color: '#217AFF' }}>Ai</span> <span style={{ color: '#DAEBE7' }}>software engineer</span></span>
                     </h1>
                 </motion.div>
 

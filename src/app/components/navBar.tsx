@@ -4,9 +4,12 @@ import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { motion, useAnimation } from 'framer-motion';
-
+import Link from 'next/link';
+import { Router } from 'next/router';
 
 const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
+  const [pathname, setPathname] = useState('');
+
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Assuming 768px as the breakpoint for mobile view
@@ -14,6 +17,9 @@ const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
   const controls = useAnimation();
 
   useEffect(() => {
+    // Record which route we're in
+    setPathname(window.location.pathname);
+
     // Start the rotation
     controls.start({
       rotate: [0, 360],
@@ -35,14 +41,22 @@ const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
 
     window.addEventListener('resize', handleResize);
 
+    const handleRouteChange = (url: string) => {
+      setPathname(url);
+    };
+
+    Router.events.on('routeChangeComplete', handleRouteChange);
+
     return () => {
       window.removeEventListener('resize', handleResize);
+      Router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [controls]);
 
   return (
     <nav ref={ref} className="fixed top-0 w-full z-50 flex justify-between md:flex-row items-center p-8 md:px-80">
-      <div className="flex items-center">
+      <Link href="/">
+        <div className="flex items-center">
         <motion.div className="relative w-10 h-10" animate={controls}>
           <Image 
              src="/assets/light-logo.svg" 
@@ -53,6 +67,7 @@ const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
         </motion.div>
         <span className="logo-font ml-2">Neatwork.Ai</span>
       </div>
+      </Link>
       {isMobileView ? (
         <div className="flex items-center">
           <FontAwesomeIcon 
@@ -74,73 +89,65 @@ const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
             onClick={() => setIsMenuOpen(false)} 
             // This closes the menu when the cross icon is clicked
         />
-
         <ul className="flex flex-col items-center justify-center h-full space-y-4">
             <li>
-                <a 
-                    href="#neatcoder" 
-                    className={`navbar-button text-xl ${activeLink === 'neatcoder' ? 'active' : ''}`}
+              <Link 
+                    href="/" 
+                    className={`navbar-button ${pathname === '/' ? 'active' : ''}`}
                     onClick={() => {
                         setActiveLink('neatcoder');
                         setIsMenuOpen(false);
                     }}
                 >
                   neatcoder
-                </a>
+              </Link>
             </li>
             <li>
-                <a 
-                    href="#openbook" 
-                    className={`navbar-button text-xl ${activeLink === 'openbook' ? 'active' : ''}`}
-                    onClick={() => {
-                        setActiveLink('openbook');
-                        setIsMenuOpen(false);
-                    }}
-                >
-                  openbook
-                </a>
+              <Link 
+                href="/about"
+                onClick={() => setActiveLink('about')}
+                className={`navbar-button ${pathname === '/about' ? 'active' : ''}`}
+              >
+                about us
+              </Link>
             </li>
             <li>
-                <a 
-                    href="#contribute" 
-                    className={`navbar-button text-xl ${activeLink === 'contribute' ? 'active' : ''}`}
-                    onClick={() => {
-                        setActiveLink('contribute');
-                        setIsMenuOpen(false);
-                    }}
-                >
-                  contribute
-                </a>
+            <Link 
+              href="/careers"
+              onClick={() => setActiveLink('careers')}
+              className={`navbar-button ${pathname === '/careers' ? 'active' : ''}`}
+            >
+              careers
+            </Link>
             </li>
         </ul>
-    </div>
-)}
-
+      </div>
+    )}
         </div>
       ) : (
         <div className="flex items-center space-x-4 mt-4 md:mt-0">
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
-        <a 
-          href="#neatcoder" 
-          className={`navbar-button ${activeLink === 'neatcoder' ? 'active' : ''}`}
+        <Link 
+          href="/" 
           onClick={() => setActiveLink('neatcoder')}
+          className={`navbar-button ${pathname === '/' ? 'active' : ''}`}
         >
           neatcoder
-        </a>
-        <a 
-          href="#openbook" 
-          className={`navbar-button ${activeLink === 'openbook' ? 'active' : ''}`}
-          onClick={() => setActiveLink('openbook')}
+        </Link>
+        <Link 
+          href="/about"
+          onClick={() => setActiveLink('about')}
+          className={`navbar-button ${pathname === '/about' ? 'active' : ''}`}
         >
-          openbook
-        </a>
-        <a 
-          href="#contribute" 
-          className={`navbar-button ${activeLink === 'contribute' ? 'active' : ''}`}
-          onClick={() => setActiveLink('contribute')}
-        >
-          contribute
-        </a>
+          about us
+        </Link>
+        <Link 
+            href="/careers"
+            onClick={() => setActiveLink('careers')}
+            className={`navbar-button ${pathname === '/careers' ? 'active' : ''}`}
+          >
+            careers
+        </Link>
         <GlassButton />
       </div>
         </div>

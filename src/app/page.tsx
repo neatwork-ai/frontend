@@ -10,13 +10,13 @@ let currentSloganPosition: number;
 let lastEventTime: number;
 
 export default function Home() {
-    const [initialAnimationComplete, setInitialAnimationComplete] = useState(false);
+    const [scrollPhase, setScrollPhase] = useState(0);
 
     const [targetY, setTargetY] = useState(0);
     const sloganControls = useAnimation();
     const videoControls = useAnimation();
     const lastY = useRef(0);
-    const rafRef = useRef<number | null>(null);
+    // const scrollPhaseRef = useRef(scrollPhase);
 
     // Assuming you have refs to both elements in a React component
     const parentRef = useRef<HTMLDivElement | null>(null);
@@ -46,30 +46,94 @@ export default function Home() {
 
     useEffect(() => {
         const handleWheel = (e: WheelEvent) => {
-            const currentTime = Date.now();
-            if (currentTime - lastEventTime > 1000) {
-                console.log("More than 1 second since the last wheel event!");
-            } else {
-                console.log("Not enough time has passed since last wheel event!");
+            // The first step is to understand in which phase we are in
+            // as well as the direction of the wheel
+
+            // To determine the direction of the wheel scroll, we examine the
+            // deltaY property of the WheelEvent object in the event handler:
+            let isForward = e.deltaY > 0 // is true if wheel was scrolled downwards and false if upwards
+
+            console.log("Scroll Phase: " + scrollPhase);
+
+            switch (scrollPhase) {
+                case 0: {
+                    // == Action Handling ==
+                    let MAX_SHIFT = setMaxShift(false)!; // False signals that we do not recalculate this
+
+                    let newTarget = lastY.current - e.deltaY * 1.2; // 1.2 is the sensitivity
+        
+                    newTarget = Math.max(MAX_SHIFT, newTarget); // To prevent overflowing
+                    newTarget = Math.min(0, newTarget); // To prevent underflowing
+
+                    setTargetY(newTarget);
+                    currentSloganPosition = newTarget;
+                    lastY.current = newTarget;
+
+                    console.log("isForward:" + isForward);
+
+                    // == State Transition == 
+
+                    if (isForward) {
+                        // In order to move to the next phase we need to hit
+                        // two criteria:
+                        // - We need to identity that this is a new discrete scrolling action
+                        // - The position of the Slogan component must be it's final upper position
+
+                        const currentTime = Date.now();
+                        if (currentTime - lastEventTime > 1000 && lastY.current == MAX_SHIFT) {
+                            console.log("Entering Phase 1!");
+                            setScrollPhase(1);
+                        }
+                        lastEventTime = currentTime;
+                    } // We are already in the first phase so we can't transition backwards anymore
+
+                    break;
+                }
+                case 1: {
+                    const currentTime = Date.now();
+                    if (currentTime - lastEventTime > 1000) {
+                        if (isForward) {
+                            console.log("Entering Phase 2!");
+                            setScrollPhase(2);
+                        } else {
+                            console.log("Back to Phase 0!");
+                            setScrollPhase(0);
+                        }
+                    }
+                    lastEventTime = currentTime;
+                    
+                    break;
+                }
+                case 2: {
+                    const currentTime = Date.now();
+                    if (currentTime - lastEventTime > 1000) {
+                        if (isForward) {
+                            console.log("Entering Phase 3!");
+                            setScrollPhase(3);
+                        } else {
+                            console.log("Back to Phase 1!");
+                            setScrollPhase(1);
+                        }
+                    }
+                    lastEventTime = currentTime;
+                    
+                    break;
+                }
+                case 3: {
+                    const currentTime = Date.now();
+                    if (currentTime - lastEventTime > 1000) {
+                        if (isForward) {
+                            console.log("Reached the last phase...");
+                        } else {
+                            console.log("Back to Phase 2!");
+                            setScrollPhase(2);
+                        }
+                    }
+                    lastEventTime = currentTime;
+
+                    break;
+                }
             }
-            lastEventTime = currentTime;
-
-            // Do not recalculate this
-            let MAX_SHIFT = setMaxShift(false)!;
-            MAX_SHIFT = MAX_SHIFT;// - lastY.current;
-
-            // console.log("lastY.current:", lastY.current);
-            // console.log("MAX_SHIFT:", MAX_SHIFT);
-            let newTarget = lastY.current - e.deltaY * 1.2;
-            // console.log("proposed shift:", newTarget);
-            
-            newTarget = Math.max(MAX_SHIFT, newTarget);
-            newTarget = Math.min(0, newTarget);
-            // console.log("new targ:", newTarget);
-
-            setTargetY(newTarget);
-            currentSloganPosition = newTarget;
-            lastY.current = newTarget;
         };
 
         const handleResize = () => {
@@ -90,7 +154,7 @@ export default function Home() {
         return () => {
             window.removeEventListener("wheel", handleWheel);
         };
-    }, [targetY, sloganControls, videoControls]);
+    }, [targetY, sloganControls, videoControls, scrollPhase]);
 
     return (
         <>

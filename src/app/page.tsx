@@ -7,10 +7,10 @@ import AutoPlayVideo from './components/video';
 
 let maxAbsoluteShift: number;
 let currentSloganPosition: number;
+let lastEventTime: number;
 
 export default function Home() {
     const [initialAnimationComplete, setInitialAnimationComplete] = useState(false);
-
 
     const [targetY, setTargetY] = useState(0);
     const sloganControls = useAnimation();
@@ -30,10 +30,7 @@ export default function Home() {
                 const sloganBounds = sloganRef.current.getBoundingClientRect();
                 const navBarBounds = navBarRef.current.getBoundingClientRect();
 
-                console.log(`maxAbsoluteShift =  - (sloganBounds.top - navBarBounds.bottom) => - (${sloganBounds.top} - ${navBarBounds.bottom}) = ${- (sloganBounds.top - navBarBounds.bottom)}`)
-    
-                // BUG: When the slogan is scrolled UP this will return a too high amount: sloganBounds.top-- whenever we resize the window...
-                // SOLUTION: STORE lastY.current as a global variable so we can perform the adjustment...
+                // console.log(`maxAbsoluteShift =  - (sloganBounds.top - navBarBounds.bottom) => - (${sloganBounds.top} - ${navBarBounds.bottom}) = ${- (sloganBounds.top - navBarBounds.bottom)}`)
 
                 // Example: -(163 - 104) => -59
                 // represents the height between the slogan and the navbar in negative terms
@@ -49,18 +46,26 @@ export default function Home() {
 
     useEffect(() => {
         const handleWheel = (e: WheelEvent) => {
+            const currentTime = Date.now();
+            if (currentTime - lastEventTime > 1000) {
+                console.log("More than 1 second since the last wheel event!");
+            } else {
+                console.log("Not enough time has passed since last wheel event!");
+            }
+            lastEventTime = currentTime;
+
             // Do not recalculate this
             let MAX_SHIFT = setMaxShift(false)!;
             MAX_SHIFT = MAX_SHIFT;// - lastY.current;
 
-            console.log("lastY.current:", lastY.current);
-            console.log("MAX_SHIFT:", MAX_SHIFT);
+            // console.log("lastY.current:", lastY.current);
+            // console.log("MAX_SHIFT:", MAX_SHIFT);
             let newTarget = lastY.current - e.deltaY * 1.2;
-            console.log("proposed shift:", newTarget);
+            // console.log("proposed shift:", newTarget);
             
             newTarget = Math.max(MAX_SHIFT, newTarget);
             newTarget = Math.min(0, newTarget);
-            console.log("new targ:", newTarget);
+            // console.log("new targ:", newTarget);
 
             setTargetY(newTarget);
             currentSloganPosition = newTarget;

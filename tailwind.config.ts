@@ -23,6 +23,7 @@ const config: Config = {
       colors: {
         "green-dim": "#DAEBE7",
         "nav-blue": "#567CCA",
+        "indicator-dot": "#AAAAAA",
       },
       borderRadius: {
         xl: "20px",

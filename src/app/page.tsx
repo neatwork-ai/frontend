@@ -4,13 +4,21 @@ import React, { useEffect, useState, useRef } from 'react';
 import Navbar from './components/navBar';
 import { motion, useAnimation } from 'framer-motion';
 import AutoPlayVideo from './components/video';
+import PaginationIndicator from './components/pagination';
 
 let maxAbsoluteShift: number;
 let currentSloganPosition: number;
-let lastEventTime: number;
+let transitionCounter = 0;
+let deltaTMinusOne = 0;
 
 export default function Home() {
     const [scrollPhase, setScrollPhase] = useState(0);
+
+    const handleDotClick = (index: number) => {
+        setScrollPhase(index);
+        transitionCounter = 0;
+        deltaTMinusOne = 0;
+    };
 
     const [targetY, setTargetY] = useState(0);
     const sloganControls = useAnimation();
@@ -30,8 +38,6 @@ export default function Home() {
                 const sloganBounds = sloganRef.current.getBoundingClientRect();
                 const navBarBounds = navBarRef.current.getBoundingClientRect();
 
-                // console.log(`maxAbsoluteShift =  - (sloganBounds.top - navBarBounds.bottom) => - (${sloganBounds.top} - ${navBarBounds.bottom}) = ${- (sloganBounds.top - navBarBounds.bottom)}`)
-
                 // Example: -(163 - 104) => -59
                 // represents the height between the slogan and the navbar in negative terms
                 if (currentSloganPosition != undefined) {
@@ -49,11 +55,13 @@ export default function Home() {
             // The first step is to understand in which phase we are in
             // as well as the direction of the wheel
 
+            console.log("DELTA: "+ e.deltaY);
+
             // To determine the direction of the wheel scroll, we examine the
             // deltaY property of the WheelEvent object in the event handler:
             let isForward = e.deltaY > 0 // is true if wheel was scrolled downwards and false if upwards
 
-            console.log("Scroll Phase: " + scrollPhase);
+            // console.log("Scroll Phase: " + scrollPhase);
 
             switch (scrollPhase) {
                 case 0: {
@@ -69,71 +77,138 @@ export default function Home() {
                     currentSloganPosition = newTarget;
                     lastY.current = newTarget;
 
-                    console.log("isForward:" + isForward);
-
                     // == State Transition == 
 
                     if (isForward) {
                         // In order to move to the next phase we need to hit
                         // two criteria:
-                        // - We need to identity that this is a new discrete scrolling action
-                        // - The position of the Slogan component must be it's final upper position
+                        // - Have reached the MAX Y state
+                        // - Have 6 increasing deltas in a row, representing a new wheel action
+                        
+                        // Transition counter registers everytime the delta increases
+                        if (lastY.current == MAX_SHIFT && e.deltaY > deltaTMinusOne) {
+                            console.log("Max reached!");
+                            transitionCounter += 1;
+                        }
 
-                        const currentTime = Date.now();
-                        if (currentTime - lastEventTime > 1000 && lastY.current == MAX_SHIFT) {
+                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
+                        // scrolling phase
+                        if (transitionCounter >= 6) {
                             console.log("Entering Phase 1!");
                             setScrollPhase(1);
+
+                            // Reset transition counter
+                            transitionCounter = 0;
                         }
-                        lastEventTime = currentTime;
                     } // We are already in the first phase so we can't transition backwards anymore
 
                     break;
                 }
                 case 1: {
-                    const currentTime = Date.now();
-                    if (currentTime - lastEventTime > 1000) {
-                        if (isForward) {
+                    if (isForward) {
+                        // In order to move to the next phase we need to hit
+                        // two criteria:
+                        // - Have 6 increasing deltas in a row, representing a new wheel action
+                    
+                        // Transition counter registers everytime the delta increases
+                        if (e.deltaY > deltaTMinusOne) {
+                            console.log("Max reached!");
+                            transitionCounter += 1;
+                        }
+
+                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
+                        // scrolling phase
+                        if (transitionCounter >= 5) {
                             console.log("Entering Phase 2!");
                             setScrollPhase(2);
-                        } else {
-                            console.log("Back to Phase 0!");
+
+                            // Reset transition counter
+                            transitionCounter = 0;
+                        }
+                    } else {
+                        if (-e.deltaY > -deltaTMinusOne) {
+                            console.log("Max reached!");
+                            transitionCounter += 1;
+                        }
+
+                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
+                        // scrolling phase
+                        if (transitionCounter >= 6) {
+                            console.log("Backtracing to Phase 0!");
                             setScrollPhase(0);
+
+                            // Reset transition counter
+                            transitionCounter = 0;
                         }
                     }
-                    lastEventTime = currentTime;
                     
                     break;
                 }
                 case 2: {
-                    const currentTime = Date.now();
-                    if (currentTime - lastEventTime > 1000) {
-                        if (isForward) {
+                    if (isForward) {
+                        // In order to move to the next phase we need to hit
+                        // two criteria:
+                        // - Have 6 increasing deltas in a row, representing a new wheel action
+                    
+                        // Transition counter registers everytime the delta increases
+                        if (e.deltaY > deltaTMinusOne) {
+                            console.log("Max reached!");
+                            transitionCounter += 1;
+                        }
+
+                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
+                        // scrolling phase
+                        if (transitionCounter >= 5) {
                             console.log("Entering Phase 3!");
                             setScrollPhase(3);
-                        } else {
-                            console.log("Back to Phase 1!");
+                            // Reset transition counter
+                            transitionCounter = 0;
+                        }
+                    } else {
+                        if (-e.deltaY > -deltaTMinusOne) {
+                            console.log("Max reached!");
+                            transitionCounter += 1;
+                        }
+
+                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
+                        // scrolling phase
+                        if (transitionCounter >= 5) {
+                            console.log("Backtracing to Phase 1!");
                             setScrollPhase(1);
+
+                            // Reset transition counter
+                            transitionCounter = 0;
                         }
                     }
-                    lastEventTime = currentTime;
+             
                     
                     break;
                 }
                 case 3: {
-                    const currentTime = Date.now();
-                    if (currentTime - lastEventTime > 1000) {
-                        if (isForward) {
-                            console.log("Reached the last phase...");
-                        } else {
-                            console.log("Back to Phase 2!");
+                    if (isForward) {
+                        console.log("Reached the last phase...");
+                    } else {
+                        if (-e.deltaY > -deltaTMinusOne) {
+                            console.log("Max reached!");
+                            transitionCounter += 1;
+                        }
+
+                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
+                        // scrolling phase
+                        if (transitionCounter >= 5) {
+                            console.log("Backtracing to Phase 2!");
                             setScrollPhase(2);
+
+                            // Reset transition counter
+                            transitionCounter = 0;
                         }
                     }
-                    lastEventTime = currentTime;
 
                     break;
                 }
             }
+
+            deltaTMinusOne = e.deltaY;
         };
 
         const handleResize = () => {
@@ -160,30 +235,86 @@ export default function Home() {
         <>
             <div ref={parentRef}>
             <Navbar ref={navBarRef} />
-            <main className="main-content bg-gradient-dark-blue flex flex-col justify-center min-h-screen relative">
+            <main className="main-content bg-gradient-dark-blue flex flex-col items-center justify-center min-h-screen relative">
+            <PaginationIndicator totalSlides={4} currentSlide={scrollPhase} onDotClick={handleDotClick} />
                 {/* Slogan */}
-                <motion.div
+                {scrollPhase === 0 && (
+                    <motion.div
                     ref={sloganRef}
                     className="flex flex-col items-center justify-center h-auto md:px-80"
                     animate={sloganControls}
                 >
                     <h1 
-                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap' }} 
+                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
                         className="text-4xl font-bold z-10"
                     >
                         <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
                         <span><span style={{ color: '#217AFF' }}>Ai</span> <span style={{ color: '#DAEBE7' }}>software engineer</span></span>
                     </h1>
                 </motion.div>
+                )}
+
+                {(scrollPhase === 1 || scrollPhase === 2) && (
+                    <motion.div
+                    ref={sloganRef}
+                    className="flex flex-col items-center justify-center h-auto md:px-80"
+                    initial={{ y: lastY.current }}
+                    animate={{ y: lastY.current }}
+                    transition={{
+                        duration: 0.8,
+                        delay: 0.5,
+                        ease: [0, 0.71, 0.2, 1.01]
+                      }}
+                >
+                    <h1 
+                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                        className="text-4xl font-bold z-10"
+                    >
+                        <span style={{ color: '#567CCA' }}>Dynamically Scaffold</span><br />
+                        <span><span style={{ color: '#217AFF' }}>entire</span> <span style={{ color: '#DAEBE7' }}>Codebases</span></span>
+                    </h1>
+                </motion.div>
+                )}
+
+                {scrollPhase === 3 && (
+                    <motion.div
+                    ref={sloganRef}
+                    className="flex flex-col items-center justify-center h-auto md:px-80"
+                    initial={{ y: lastY.current }}
+                    animate={{ y: lastY.current }}
+                >
+                    <h1 
+                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                        className="text-4xl font-bold z-10"
+                    >
+                        <span style={{ color: '#567CCA' }}>Stream code</span><br />
+                        <span><span style={{ color: '#217AFF' }}>in</span> <span style={{ color: '#DAEBE7' }}>background</span></span>
+                    </h1>
+                </motion.div>
+                )}
 
                 {/* Video */}
-                <motion.div 
+                {(scrollPhase === 0 || scrollPhase === 1 || scrollPhase === 2) && (
+                    <motion.div 
                     className="absolute top-1/2 left-0 w-full flex items-center justify-center mt-[-10%]"
                     initial={{ opacity: 0, scale: 0.5 }} // setting initial values
                     animate={videoControls}
+                    exit={{ opacity: 0, scale: 0.9 }}
                 >
                     <AutoPlayVideo />
                 </motion.div>
+                )}
+                {scrollPhase === 3 && (
+                    <motion.div 
+                    className="absolute top-1/2 left-0 w-full flex items-center justify-center mt-[-10%]"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                >
+                    <AutoPlayVideo filename="/demos/background_streaming.mp4" />
+                </motion.div>
+                )}
+
             </main>
             </div>
         </>

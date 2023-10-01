@@ -1,11 +1,11 @@
 import React, { useEffect, useState, forwardRef } from 'react';
+import { Router } from 'next/router';
 import GlassButton from './download';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { motion, useAnimation } from 'framer-motion';
-import Link from 'next/link';
-import { Router } from 'next/router';
 
 const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
   const [pathname, setPathname] = useState('');
@@ -54,7 +54,7 @@ const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
   }, [controls]);
 
   return (
-    <nav ref={ref} className="fixed top-0 w-full z-50 flex justify-between md:flex-row items-center p-8 md:px-80">
+    <nav ref={ref} className="fixed top-0 w-full z-50 flex justify-between md:flex-row items-center p-8 md:px-40">
       <Link href="/">
         <div className="flex items-center">
         <motion.div className="relative w-10 h-10" animate={controls}>

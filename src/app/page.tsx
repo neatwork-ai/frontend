@@ -5,6 +5,8 @@ import Navbar from './components/navBar';
 import { motion, useAnimation } from 'framer-motion';
 import AutoPlayVideo from './components/video';
 import PaginationIndicator from './components/pagination';
+import TypingComponent from './components/test';
+import Typist from 'react-typist-component';
 
 let maxAbsoluteShift: number;
 let currentSloganPosition: number;
@@ -235,6 +237,11 @@ export default function Home() {
         <>
             <div ref={parentRef}>
             <Navbar ref={navBarRef} />
+            <TypingComponent />
+            {/* <Typist>
+  Hello, I am a typing animation! <Typist.Backspace count={5} delay={500} />
+</Typist> */}
+
             <main className="main-content bg-gradient-dark-blue flex flex-col items-center justify-center min-h-screen relative">
             <PaginationIndicator totalSlides={4} currentSlide={scrollPhase} onDotClick={handleDotClick} />
                 {/* Slogan */}
@@ -244,13 +251,20 @@ export default function Home() {
                     className="flex flex-col items-center justify-center h-auto md:px-80"
                     animate={sloganControls}
                 >
-                    <h1 
-                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
-                        className="text-4xl font-bold z-10"
-                    >
-                        <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
-                        <span><span style={{ color: '#217AFF' }}>Ai</span> <span style={{ color: '#DAEBE7' }}>software engineer</span></span>
-                    </h1>
+                    <Typist
+                        cursor={<span className="typing-cursor">|</span>}
+                        typingDelay={50} // Adjust this for typing speed
+                        backspaceDelay={50} // Adjust this for backspace speed
+                        >
+                        <h1 
+                            style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                            className="text-4xl font-bold z-10"
+                        >
+                            <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
+                            <span><span style={{ color: '#217AFF' }}>Ai</span> <span style={{ color: '#DAEBE7' }}>software engineer</span></span>
+                        </h1>
+                    </Typist>
+                    
                 </motion.div>
                 )}
 

@@ -5,8 +5,7 @@ import Navbar from './components/navBar';
 import { motion, useAnimation } from 'framer-motion';
 import AutoPlayVideo from './components/video';
 import PaginationIndicator from './components/pagination';
-import TypingComponent from './components/test';
-import Typist from 'react-typist-component';
+import Typist from '@/typist/Typist';
 
 let maxAbsoluteShift: number;
 let currentSloganPosition: number;
@@ -57,8 +56,6 @@ export default function Home() {
             // The first step is to understand in which phase we are in
             // as well as the direction of the wheel
 
-            console.log("DELTA: "+ e.deltaY);
-
             // To determine the direction of the wheel scroll, we examine the
             // deltaY property of the WheelEvent object in the event handler:
             let isForward = e.deltaY > 0 // is true if wheel was scrolled downwards and false if upwards
@@ -79,48 +76,31 @@ export default function Home() {
                     currentSloganPosition = newTarget;
                     lastY.current = newTarget;
 
-                    // == State Transition == 
+                    // == State Transition ==
 
-                    if (isForward) {
-                        // In order to move to the next phase we need to hit
-                        // two criteria:
-                        // - Have reached the MAX Y state
-                        // - Have 6 increasing deltas in a row, representing a new wheel action
-                        
-                        // Transition counter registers everytime the delta increases
-                        if (lastY.current == MAX_SHIFT && e.deltaY > deltaTMinusOne) {
-                            console.log("Max reached!");
-                            transitionCounter += 1;
-                        }
+                    if (newTarget === MAX_SHIFT) {
+                        setScrollPhase(1);
 
-                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
-                        // scrolling phase
-                        if (transitionCounter >= 6) {
-                            console.log("Entering Phase 1!");
-                            setScrollPhase(1);
-
-                            // Reset transition counter
-                            transitionCounter = 0;
-                        }
-                    } // We are already in the first phase so we can't transition backwards anymore
+                        // Reset transition counter
+                        transitionCounter = 0;
+                    }
 
                     break;
                 }
                 case 1: {
                     if (isForward) {
                         // In order to move to the next phase we need to hit
-                        // two criteria:
+                        // the following criteria:
                         // - Have 6 increasing deltas in a row, representing a new wheel action
                     
                         // Transition counter registers everytime the delta increases
                         if (e.deltaY > deltaTMinusOne) {
-                            console.log("Max reached!");
                             transitionCounter += 1;
                         }
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 5) {
+                        if (transitionCounter >= 6) {
                             console.log("Entering Phase 2!");
                             setScrollPhase(2);
 
@@ -160,7 +140,7 @@ export default function Home() {
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 5) {
+                        if (transitionCounter >= 6) {
                             console.log("Entering Phase 3!");
                             setScrollPhase(3);
                             // Reset transition counter
@@ -174,7 +154,7 @@ export default function Home() {
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 5) {
+                        if (transitionCounter >= 6) {
                             console.log("Backtracing to Phase 1!");
                             setScrollPhase(1);
 
@@ -197,7 +177,7 @@ export default function Home() {
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 5) {
+                        if (transitionCounter >= 6) {
                             console.log("Backtracing to Phase 2!");
                             setScrollPhase(2);
 
@@ -237,11 +217,6 @@ export default function Home() {
         <>
             <div ref={parentRef}>
             <Navbar ref={navBarRef} />
-            <TypingComponent />
-            {/* <Typist>
-  Hello, I am a typing animation! <Typist.Backspace count={5} delay={500} />
-</Typist> */}
-
             <main className="main-content bg-gradient-dark-blue flex flex-col items-center justify-center min-h-screen relative">
             <PaginationIndicator totalSlides={4} currentSlide={scrollPhase} onDotClick={handleDotClick} />
                 {/* Slogan */}
@@ -253,8 +228,7 @@ export default function Home() {
                 >
                     <Typist
                         cursor={<span className="typing-cursor">|</span>}
-                        typingDelay={50} // Adjust this for typing speed
-                        backspaceDelay={50} // Adjust this for backspace speed
+                        typingDelay={30} // Adjust this for typing speed
                         >
                         <h1 
                             style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
@@ -264,51 +238,83 @@ export default function Home() {
                             <span><span style={{ color: '#217AFF' }}>Ai</span> <span style={{ color: '#DAEBE7' }}>software engineer</span></span>
                         </h1>
                     </Typist>
-                    
                 </motion.div>
                 )}
 
-                {(scrollPhase === 1 || scrollPhase === 2) && (
+                {scrollPhase === 1 && (
                     <motion.div
-                    ref={sloganRef}
-                    className="flex flex-col items-center justify-center h-auto md:px-80"
-                    initial={{ y: lastY.current }}
-                    animate={{ y: lastY.current }}
-                    transition={{
-                        duration: 0.8,
-                        delay: 0.5,
-                        ease: [0, 0.71, 0.2, 1.01]
-                      }}
-                >
-                    <h1 
-                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
-                        className="text-4xl font-bold z-10"
+                        ref={sloganRef}
+                        className="flex flex-col items-center justify-center h-auto md:px-80"
+                        initial={{ y: lastY.current }}
+                        animate={{ y: lastY.current }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 0.5,
+                            ease: [0, 0.71, 0.2, 1.01]
+                          }}
                     >
-                        <span style={{ color: '#567CCA' }}>Dynamically Scaffold</span><br />
-                        <span><span style={{ color: '#217AFF' }}>entire</span> <span style={{ color: '#DAEBE7' }}>Codebases</span></span>
-                    </h1>
-                </motion.div>
+                        <Typist
+                            cursor={<span className="typing-cursor">|</span>}
+                            typingDelay={30} // Adjust this for typing speed
+                            backspaceDelay={25} // Adjust this for backspace speed
+                            loop={true} // This will make the sequence loop indefinitely
+                        >
+                            <Typist.Paste>
+                                <h1 
+                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                                    className="text-4xl font-bold z-10"
+                                >
+                                    <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
+                                    <span><span style={{ color: '#217AFF' }}>Ai</span> <span style={{ color: '#DAEBE7' }}>software engineer</span></span>
+                                </h1>
+                            </Typist.Paste>
+                            <Typist.Delay ms={500} />
+                            <Typist.Backspace count={42} />
+                                <h1 
+                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                                    className="text-4xl font-bold z-10"
+                                >
+                                    <span style={{ color: '#567CCA' }}>Dynamically Scaffold</span><br />
+                                    <span><span style={{ color: '#217AFF' }}>entire</span> <span style={{ color: '#DAEBE7' }}>Codebases</span></span>
+                                </h1>
+                            <Typist.Delay ms={5000} />
+                            <Typist.Backspace count={37} />
+                            <h1 
+                                style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                                className="text-4xl font-bold z-10"
+                            >
+                                <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
+                                <span><span style={{ color: '#217AFF' }}>Ai</span> <span style={{ color: '#DAEBE7' }}>software engineer</span></span>
+                            </h1>
+                            <Typist.Delay ms={4500} />
+                        </Typist>
+                    </motion.div>
                 )}
 
-                {scrollPhase === 3 && (
+                {scrollPhase === 2 && (
                     <motion.div
-                    ref={sloganRef}
-                    className="flex flex-col items-center justify-center h-auto md:px-80"
-                    initial={{ y: lastY.current }}
-                    animate={{ y: lastY.current }}
-                >
-                    <h1 
-                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
-                        className="text-4xl font-bold z-10"
+                        ref={sloganRef}
+                        className="flex flex-col items-center justify-center h-auto md:px-80"
+                        initial={{ y: lastY.current }}
+                        animate={{ y: lastY.current }}
                     >
-                        <span style={{ color: '#567CCA' }}>Stream code</span><br />
-                        <span><span style={{ color: '#217AFF' }}>in</span> <span style={{ color: '#DAEBE7' }}>background</span></span>
-                    </h1>
-                </motion.div>
+                        <Typist
+                            cursor={<span className="typing-cursor">|</span>}
+                            typingDelay={30} // Adjust this for typing speed
+                        >
+                            <h1 
+                                style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                                className="text-4xl font-bold z-10"
+                            >
+                                <span style={{ color: '#567CCA' }}>Stream code</span><br />
+                                <span><span style={{ color: '#217AFF' }}>in</span> <span style={{ color: '#DAEBE7' }}>background</span></span>
+                            </h1>
+                        </Typist>
+                    </motion.div>
                 )}
 
                 {/* Video */}
-                {(scrollPhase === 0 || scrollPhase === 1 || scrollPhase === 2) && (
+                {(scrollPhase === 0 || scrollPhase === 1) && (
                     <motion.div 
                     className="absolute top-1/2 left-0 w-full flex items-center justify-center mt-[-10%]"
                     initial={{ opacity: 0, scale: 0.5 }} // setting initial values
@@ -318,7 +324,7 @@ export default function Home() {
                     <AutoPlayVideo />
                 </motion.div>
                 )}
-                {scrollPhase === 3 && (
+                {scrollPhase === 2 && (
                     <motion.div 
                     className="absolute top-1/2 left-0 w-full flex items-center justify-center mt-[-10%]"
                     initial={{ opacity: 0, scale: 0.8 }}

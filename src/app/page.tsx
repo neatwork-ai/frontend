@@ -13,10 +13,11 @@ let maxAbsoluteShift: number;
 let currentSloganPosition: number;
 let transitionCounter = 0;
 let deltaTMinusOne = 0;
+const DELTA_THRESHOLD = 8;
 
 const footerVariants = {
     hidden: { y: '100%' },  // Start position (100% below the original position)
-    visible: { y: '0%', transition: { duration: 0.5, ease: 'easeOut' } } // End position (original position)
+    visible: { y: '0%', transition: { duration: 0.2, ease: 'easeOut' } } // End position (original position)
   };
 
 export default function Home() {
@@ -86,6 +87,7 @@ export default function Home() {
                     // == State Transition ==
 
                     if (newTarget === MAX_SHIFT) {
+                        console.log("Phase 0 -> 1");
                         setScrollPhase(1);
 
                         // Reset transition counter
@@ -107,8 +109,8 @@ export default function Home() {
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 6) {
-                            console.log("Entering Phase 2!");
+                        if (transitionCounter >= DELTA_THRESHOLD) {
+                            console.log("Phase 1 -> 2");
                             setScrollPhase(2);
 
                             // Reset transition counter
@@ -116,14 +118,13 @@ export default function Home() {
                         }
                     } else {
                         if (-e.deltaY > -deltaTMinusOne) {
-                            console.log("Max reached!");
                             transitionCounter += 1;
                         }
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 6) {
-                            console.log("Backtracing to Phase 0!");
+                        if (transitionCounter >= DELTA_THRESHOLD) {
+                            console.log("Phase 1 -> 0");
                             setScrollPhase(0);
 
                             // Reset transition counter
@@ -141,28 +142,26 @@ export default function Home() {
                     
                         // Transition counter registers everytime the delta increases
                         if (e.deltaY > deltaTMinusOne) {
-                            console.log("Max reached!");
                             transitionCounter += 1;
                         }
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 7) {
-                            console.log("Entering Phase 3!");
+                        if (transitionCounter >= DELTA_THRESHOLD) {
+                            console.log("Phase 2 -> 3");
                             setScrollPhase(3);
                             // Reset transition counter
                             transitionCounter = 0;
                         }
                     } else {
                         if (-e.deltaY > -deltaTMinusOne) {
-                            console.log("Max reached!");
                             transitionCounter += 1;
                         }
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 7) {
-                            console.log("Backtracing to Phase 1!");
+                        if (transitionCounter >= DELTA_THRESHOLD) {
+                            console.log("Phase 2 -> 1");
                             setScrollPhase(1);
 
                             // Reset transition counter
@@ -174,25 +173,21 @@ export default function Home() {
                     break;
                 }
                 case 3: {
-                    if (isForward) {
-                        console.log("Reached the last phase...");
-                    } else {
+                    if (!isForward) {
                         if (-e.deltaY > -deltaTMinusOne) {
-                            console.log("Max reached!");
                             transitionCounter += 1;
                         }
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 7) {
-                            console.log("Backtracing to Phase 2!");
+                        if (transitionCounter >= DELTA_THRESHOLD) {
+                            console.log("Phase 2 -> 3");
                             setScrollPhase(2);
 
                             // Reset transition counter
                             transitionCounter = 0;
                         }
                     }
-
                     break;
                 }
             }
@@ -224,7 +219,10 @@ export default function Home() {
         <>
             <div ref={parentRef}>
             <Navbar ref={navBarRef} />
-            <main className="main-content bg-gradient-dark-blue flex flex-col items-center justify-center min-h-screen relative">
+            <main 
+                style={{ overflowX: 'hidden' }}
+                className="main-content bg-gradient-dark-blue flex flex-col items-center justify-center min-h-screen relative"
+            >
             <PaginationIndicator totalSlides={4} currentSlide={scrollPhase} onDotClick={handleDotClick} />
                 {/* Slogan */}
                 {scrollPhase === 0 && (

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/navBar';
 import React from 'react';
 
-const Careers = () => {
+const PrivacyPolicy = () => {
     return (
         <>
             <Navbar />
@@ -19,11 +19,11 @@ const Careers = () => {
                         style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', color: '#FFFFFF' }} 
                         className="text-4xl font-bold z-10 mb-4"
                     >
-                        Careers
+                        Privacy Policy
                     </h1>
                     <p 
                         style={{ fontFamily: 'Exo, sans-serif', color: '#FFFFFF' }} 
-                        className="text-center color md:px-80"
+                        className="color md:px-80"
                     >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
@@ -33,4 +33,4 @@ const Careers = () => {
     );
 }
 
-export default Careers;
+export default PrivacyPolicy;

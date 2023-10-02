@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -27,10 +28,10 @@ const Footer = () => {
 
         {/* Right Section */}
         <ul className="flex flex-col space-y-2">
-          <li><a href="/">neatcoder</a></li>
-          <li><a href="/about">about us</a></li>
-          <li><a href="/careers">careers</a></li>
-          <li><a href="/privacy-policy">privacy policy</a></li>
+          <li><Link href="/">neatcoder</Link></li>
+          <li><Link href="/about">about us</Link></li>
+          <li><Link href="/careers">careers</Link></li>
+          <li><Link href="/privacy">privacy policy</Link></li>
         </ul>
       </div>
         

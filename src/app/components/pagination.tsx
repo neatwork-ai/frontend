@@ -31,7 +31,7 @@ const LiquidDot: React.FC<LiquidDotProps> = ({ isActive }) => {
         <div className={`${baseClasses} ${sizeClasses}`}>
             <motion.div 
                 initial={{ backgroundColor: '#D9D9D9' }} // starting color
-                animate={{ backgroundColor: isActive ? "white" : "#D9D9D9" }}
+                animate={{ backgroundColor: isActive ? "#FFFFFF" : "#D9D9D9" }}
                 transition={{ duration: 1 }}
                 className="absolute bottom-0 left-0 w-full h-full" // removed conditional background class
             ></motion.div>

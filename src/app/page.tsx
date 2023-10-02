@@ -8,12 +8,25 @@ import PaginationIndicator from './components/pagination';
 import Typist from '@/typist/Typist';
 import DownloadNowButton from './components/downloadNow';
 import Footer from './components/footer';
+import ReactDOM from 'react-dom';
+import useWheelScroll from './hooks/wheel';
+import { setMaxShift } from './utils';
+import useTouchMove from './hooks/touch';
 
-let maxAbsoluteShift: number;
-let currentSloganPosition: number;
 let transitionCounter = 0;
 let deltaTMinusOne = 0;
-const DELTA_THRESHOLD = 8;
+const DELTA_THRESHOLD = 7;
+
+const defaultSwipe = [
+    2,
+    16,
+    32,
+    74,
+    178,
+    332,
+    422,
+    504,
+];
 
 const footerVariants = {
     hidden: { y: '100%' },  // Start position (100% below the original position)
@@ -33,173 +46,64 @@ export default function Home() {
     const sloganControls = useAnimation();
     const videoControls = useAnimation();
     const lastY = useRef(0);
-    // const scrollPhaseRef = useRef(scrollPhase);
 
     // Assuming you have refs to both elements in a React component
     const parentRef = useRef<HTMLDivElement | null>(null);
     const navBarRef = useRef<HTMLElement | null>(null);
     const sloganRef = useRef<HTMLParagraphElement | null>(null);
 
-    // This should run if the screen is resized, not when scrolling occurs
-    const setMaxShift = (override: Boolean) => {
-        if (sloganRef.current && navBarRef.current) {
-            if (!maxAbsoluteShift || override) {
-                const sloganBounds = sloganRef.current.getBoundingClientRect();
-                const navBarBounds = navBarRef.current.getBoundingClientRect();
+    // const scrollPhaseRef = useRef(scrollPhase);
 
-                // Example: -(163 - 104) => -59
-                // represents the height between the slogan and the navbar in negative terms
-                if (currentSloganPosition != undefined) {
-                    maxAbsoluteShift =  - (sloganBounds.top - currentSloganPosition - navBarBounds.bottom);
-                } else {
-                    maxAbsoluteShift =  - (sloganBounds.top - navBarBounds.bottom);
-                }
-            }
-            return maxAbsoluteShift;
-        }
-    }
+    // Touchscreen refs
+    const touchStartRef = useRef<number>(0);
+    const touchEndRef = useRef<number>(0);
+
+    const handleWheel = useWheelScroll(
+        scrollPhase,
+        setScrollPhase,
+        setTargetY,
+        lastY,
+        navBarRef,
+        sloganRef
+    );
+
+    const handleTouchMove = useTouchMove(
+        touchStartRef,
+        touchEndRef,
+        scrollPhase,
+        setScrollPhase,
+        setTargetY,
+        lastY,
+        navBarRef,
+        sloganRef
+    );
 
     useEffect(() => {
-        const handleWheel = (e: WheelEvent) => {
-            // The first step is to understand in which phase we are in
-            // as well as the direction of the wheel
-
-            // To determine the direction of the wheel scroll, we examine the
-            // deltaY property of the WheelEvent object in the event handler:
-            let isForward = e.deltaY > 0 // is true if wheel was scrolled downwards and false if upwards
-
-            // console.log("Scroll Phase: " + scrollPhase);
-
-            switch (scrollPhase) {
-                case 0: {
-                    // == Action Handling ==
-                    let MAX_SHIFT = setMaxShift(false)!; // False signals that we do not recalculate this
-
-                    let newTarget = lastY.current - e.deltaY * 1.2; // 1.2 is the sensitivity
-        
-                    newTarget = Math.max(MAX_SHIFT, newTarget); // To prevent overflowing
-                    newTarget = Math.min(0, newTarget); // To prevent underflowing
-
-                    setTargetY(newTarget);
-                    currentSloganPosition = newTarget;
-                    lastY.current = newTarget;
-
-                    // == State Transition ==
-
-                    if (newTarget === MAX_SHIFT) {
-                        console.log("Phase 0 -> 1");
-                        setScrollPhase(1);
-
-                        // Reset transition counter
-                        transitionCounter = 0;
-                    }
-
-                    break;
-                }
-                case 1: {
-                    if (isForward) {
-                        // In order to move to the next phase we need to hit
-                        // the following criteria:
-                        // - Have 6 increasing deltas in a row, representing a new wheel action
-                    
-                        // Transition counter registers everytime the delta increases
-                        if (e.deltaY > deltaTMinusOne) {
-                            transitionCounter += 1;
-                        }
-
-                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
-                        // scrolling phase
-                        if (transitionCounter >= DELTA_THRESHOLD) {
-                            console.log("Phase 1 -> 2");
-                            setScrollPhase(2);
-
-                            // Reset transition counter
-                            transitionCounter = 0;
-                        }
-                    } else {
-                        if (-e.deltaY > -deltaTMinusOne) {
-                            transitionCounter += 1;
-                        }
-
-                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
-                        // scrolling phase
-                        if (transitionCounter >= DELTA_THRESHOLD) {
-                            console.log("Phase 1 -> 0");
-                            setScrollPhase(0);
-
-                            // Reset transition counter
-                            transitionCounter = 0;
-                        }
-                    }
-                    
-                    break;
-                }
-                case 2: {
-                    if (isForward) {
-                        // In order to move to the next phase we need to hit
-                        // two criteria:
-                        // - Have 6 increasing deltas in a row, representing a new wheel action
-                    
-                        // Transition counter registers everytime the delta increases
-                        if (e.deltaY > deltaTMinusOne) {
-                            transitionCounter += 1;
-                        }
-
-                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
-                        // scrolling phase
-                        if (transitionCounter >= DELTA_THRESHOLD) {
-                            console.log("Phase 2 -> 3");
-                            setScrollPhase(3);
-                            // Reset transition counter
-                            transitionCounter = 0;
-                        }
-                    } else {
-                        if (-e.deltaY > -deltaTMinusOne) {
-                            transitionCounter += 1;
-                        }
-
-                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
-                        // scrolling phase
-                        if (transitionCounter >= DELTA_THRESHOLD) {
-                            console.log("Phase 2 -> 1");
-                            setScrollPhase(1);
-
-                            // Reset transition counter
-                            transitionCounter = 0;
-                        }
-                    }
-             
-                    
-                    break;
-                }
-                case 3: {
-                    if (!isForward) {
-                        if (-e.deltaY > -deltaTMinusOne) {
-                            transitionCounter += 1;
-                        }
-
-                        // Whenever we hit 3 increasing deltas it means we are ready to move to the next
-                        // scrolling phase
-                        if (transitionCounter >= DELTA_THRESHOLD) {
-                            console.log("Phase 2 -> 3");
-                            setScrollPhase(2);
-
-                            // Reset transition counter
-                            transitionCounter = 0;
-                        }
-                    }
-                    break;
-                }
-            }
-
-            deltaTMinusOne = e.deltaY;
-        };
-
         const handleResize = () => {
-            setMaxShift(true);
+            setMaxShift(navBarRef, sloganRef, true);
         };
 
-        window.addEventListener("resize", handleResize); 
+        const handleTouchStart = (e: TouchEvent) => {
+            touchStartRef.current = e.touches[0].clientY;
+        };
+        
+        const handleTouchEnd = () => {
+            // // Trigger the wheel handler with the calculated deltaY.
+            // let delay = 0;
+            // defaultSwipe.forEach((swipe) => {
+            //     setTimeout(() => {
+            //         const event = new WheelEvent('wheel', { deltaY: direction * swipe });
+            //         window.dispatchEvent(event);
+            //     }, delay); // or some other small delay in milliseconds
+            //     delay += 1;
+            // });
+        };
+
+        // Attach callbacks to event listeners
+        window.addEventListener('touchstart', handleTouchStart);
+        window.addEventListener('touchmove', handleTouchMove);
+        window.addEventListener('touchend', handleTouchEnd);
+        window.addEventListener("resize", handleResize);
         window.addEventListener("wheel", handleWheel);
 
         // Animation for the slogan
@@ -212,6 +116,10 @@ export default function Home() {
 
         return () => {
             window.removeEventListener("wheel", handleWheel);
+            window.removeEventListener("touchstart", handleTouchStart);
+            window.removeEventListener("touchmove", handleTouchMove);
+            window.removeEventListener("touchend", handleTouchEnd);
+            window.removeEventListener("resize", handleResize);
         };
     }, [targetY, sloganControls, videoControls, scrollPhase]);
 

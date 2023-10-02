@@ -6,11 +6,18 @@ import { motion, useAnimation } from 'framer-motion';
 import AutoPlayVideo from './components/video';
 import PaginationIndicator from './components/pagination';
 import Typist from '@/typist/Typist';
+import DownloadNowButton from './components/downloadNow';
+import Footer from './components/footer';
 
 let maxAbsoluteShift: number;
 let currentSloganPosition: number;
 let transitionCounter = 0;
 let deltaTMinusOne = 0;
+
+const footerVariants = {
+    hidden: { y: '100%' },  // Start position (100% below the original position)
+    visible: { y: '0%', transition: { duration: 0.5, ease: 'easeOut' } } // End position (original position)
+  };
 
 export default function Home() {
     const [scrollPhase, setScrollPhase] = useState(0);
@@ -140,7 +147,7 @@ export default function Home() {
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 6) {
+                        if (transitionCounter >= 7) {
                             console.log("Entering Phase 3!");
                             setScrollPhase(3);
                             // Reset transition counter
@@ -154,7 +161,7 @@ export default function Home() {
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 6) {
+                        if (transitionCounter >= 7) {
                             console.log("Backtracing to Phase 1!");
                             setScrollPhase(1);
 
@@ -177,7 +184,7 @@ export default function Home() {
 
                         // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                         // scrolling phase
-                        if (transitionCounter >= 6) {
+                        if (transitionCounter >= 7) {
                             console.log("Backtracing to Phase 2!");
                             setScrollPhase(2);
 
@@ -228,7 +235,7 @@ export default function Home() {
                 >
                     <Typist
                         cursor={<span className="typing-cursor">|</span>}
-                        typingDelay={30} // Adjust this for typing speed
+                        typingDelay={45} // Adjust this for typing speed
                         >
                         <h1 
                             style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
@@ -255,7 +262,7 @@ export default function Home() {
                     >
                         <Typist
                             cursor={<span className="typing-cursor">|</span>}
-                            typingDelay={30} // Adjust this for typing speed
+                            typingDelay={45} // Adjust this for typing speed
                             backspaceDelay={25} // Adjust this for backspace speed
                             loop={true} // This will make the sequence loop indefinitely
                         >
@@ -274,8 +281,8 @@ export default function Home() {
                                     style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
                                     className="text-4xl font-bold z-10"
                                 >
-                                    <span style={{ color: '#567CCA' }}>Dynamically Scaffold</span><br />
-                                    <span><span style={{ color: '#217AFF' }}>entire</span> <span style={{ color: '#DAEBE7' }}>Codebases</span></span>
+                                    <span style={{ color: '#567CCA' }}>Dynamically scaffold</span><br />
+                                    <span><span style={{ color: '#217AFF' }}>entire</span> <span style={{ color: '#DAEBE7' }}>codebases</span></span>
                                 </h1>
                             <Typist.Delay ms={5000} />
                             <Typist.Backspace count={37} />
@@ -297,20 +304,43 @@ export default function Home() {
                         className="flex flex-col items-center justify-center h-auto md:px-80"
                         initial={{ y: lastY.current }}
                         animate={{ y: lastY.current }}
+                        exit={{ opacity: 0, scale: 0.9 }}
                     >
                         <Typist
                             cursor={<span className="typing-cursor">|</span>}
-                            typingDelay={30} // Adjust this for typing speed
+                            typingDelay={45} // Adjust this for typing speed
                         >
                             <h1 
                                 style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
                                 className="text-4xl font-bold z-10"
                             >
                                 <span style={{ color: '#567CCA' }}>Stream code</span><br />
-                                <span><span style={{ color: '#217AFF' }}>in</span> <span style={{ color: '#DAEBE7' }}>background</span></span>
+                                <span><span style={{ color: '#217AFF' }}>in</span> <span style={{ color: '#DAEBE7' }}> the background</span></span>
                             </h1>
                         </Typist>
                     </motion.div>
+                )}
+
+                {scrollPhase === 3 && (
+                    <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex flex-col items-center justify-center h-auto md:px-80"
+                >
+                    <div className="p-4">
+                        <h1 
+                            style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                            className="text-4xl font-bold z-10"
+                        >
+                            <span style={{ color: '#DAEBE7' }}>Available now on</span><br />
+                            <span><span style={{ color: '#217AFF' }}>VS Code</span></span>
+                        </h1>
+                    </div>
+                </motion.div>
+                )}
+
+                {scrollPhase === 3 && (
+                    <DownloadNowButton />
                 )}
 
                 {/* Video */}
@@ -335,6 +365,16 @@ export default function Home() {
                 </motion.div>
                 )}
 
+                {scrollPhase === 3 && (
+                  <motion.div 
+                  className="w-full flex justify-between items-center p-8 text-white absolute bottom-0 left-0"
+                    initial="hidden" 
+                    animate="visible" 
+                    variants={footerVariants}
+                  >
+                    <Footer />
+                  </motion.div>
+                )}
             </main>
             </div>
         </>

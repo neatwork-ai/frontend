@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
 interface AutoPlayVideoProps {
-    filename?: string;
-  }
+  filename?: string;
+  poster?: string;
+}
 
-export function AutoPlayVideo({ filename = "/demos/neatcoder_showcase.mp4" }: AutoPlayVideoProps) {
+export function AutoPlayVideo({
+  filename = "/demos/neatcoder_showcase.mp4",
+  poster = "/path/to/your/neatcoder_showcase_thumb.jpg"
+}: AutoPlayVideoProps) {
   const videoEl = useRef<HTMLVideoElement | null>(null);
   const [playFailed, setPlayFailed] = useState(false);
 
@@ -34,17 +38,15 @@ export function AutoPlayVideo({ filename = "/demos/neatcoder_showcase.mp4" }: Au
 
 
   return (
-    <div className="shadow-strong rounded-md autoPlayVideo">
-      <video
-    className="rounded-md"
-    autoPlay muted playsInline
-    preload="auto"
+    <video
+      className="shadow-strong rounded-md autoPlayVideo"
+      autoPlay muted playsInline
+      preload="auto"
+      poster={poster}
     >
       <source src={filename} type="video/mp4" />
       Your browser does not support the video tag.
     </video>
-      {playFailed && <button onClick={() => videoEl.current?.play()}>Play</button>}
-    </div>
   );
 }
 

@@ -265,7 +265,7 @@ export default function Home() {
                     animate={videoControls}
                     exit={{ opacity: 0, scale: 0.9 }}
                 >
-                    <AutoPlayVideo filename="/demos/background_streaming.mp4" />
+                    <AutoPlayVideo filename="/demos/background_streaming.mp4" poster="/demos/background_streaming_thumb.mp4" />
                     {/* <AutoPlayVideo videoRef={videoRef2} filename="/demos/background_streaming.mp4" /> */}
                 </motion.div>
                 )}

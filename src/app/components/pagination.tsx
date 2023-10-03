@@ -1,14 +1,24 @@
 import { motion, useAnimation } from 'framer-motion';
 
 interface PaginationIndicatorProps {
+    isMobileView: boolean;
     totalSlides: number;
     currentSlide: number;
     onDotClick: (index: number) => void;
 }
 
-const PaginationIndicator: React.FC<PaginationIndicatorProps> = ({ totalSlides, currentSlide, onDotClick }) => {
+const PaginationIndicator: React.FC<PaginationIndicatorProps> = ({ 
+    isMobileView,
+    totalSlides,
+    currentSlide,
+    onDotClick,
+}) => {
+    const positionClass = isMobileView ? 'bottom-16' : 'right-8';
+    const flexDirection = isMobileView ? 'flex-row' : 'flex-col';
+    const spacing = isMobileView ? 'space-x-2' : 'space-y-2';
+
     return (
-        <div className="absolute right-8 space-y-2 flex flex-col items-center"> {/* Adjusted to flex */}
+        <div className={`absolute ${positionClass} ${spacing} flex ${flexDirection} items-center`}>
             {Array.from({ length: totalSlides }).map((_, index) => (
                 <div key={index} onClick={() => onDotClick(index)} className="cursor-pointer">
                     <LiquidDot isActive={currentSlide === index} />

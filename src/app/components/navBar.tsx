@@ -7,12 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { motion, useAnimation } from 'framer-motion';
 
-const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
+interface NavbarProps {
+  isMobileView: boolean;
+  setIsMobileView: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Navbar = forwardRef<HTMLElement, NavbarProps>((props, ref) => {
   const [pathname, setPathname] = useState('');
 
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Assuming 768px as the breakpoint for mobile view
+  const {isMobileView, setIsMobileView} = props; // Assuming 768px as the breakpoint for mobile view
 
   const controls = useAnimation();
 
@@ -31,7 +36,8 @@ const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
     });
 
     const handleResize = () => {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 866) {
+        console.log(setIsMobileView)
         setIsMobileView(true);
       } else {
         setIsMobileView(false);
@@ -51,7 +57,7 @@ const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
       window.removeEventListener('resize', handleResize);
       Router.events.off('routeChangeComplete', handleRouteChange);
     };
-  }, [controls]);
+  }, [controls, setIsMobileView]);
 
   return (
     <nav ref={ref} className="fixed top-0 w-full z-50 flex justify-between md:flex-row items-center p-8 md:px-40">
@@ -118,6 +124,14 @@ const Navbar = forwardRef<HTMLElement, {}>((props, ref) => {
               className={`navbar-button ${pathname === '/careers' ? 'active' : ''}`}
             >
               careers
+            </Link>
+            </li>
+            <li>
+            <Link 
+              href="https://marketplace.visualstudio.com/vscode"
+              className={`navbar-button`}
+            >
+              download
             </Link>
             </li>
         </ul>

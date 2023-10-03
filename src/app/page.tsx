@@ -21,7 +21,6 @@ const footerVariants = {
 
 export default function Home() {
     const [scrollPhase, setScrollPhase] = useState(0);
-    // const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Assuming 768px as the breakpoint for mobile view
     const [isMobileView, setIsMobileView] = useState(
         typeof window !== "undefined" ? window.innerWidth <= 768 : false
     );

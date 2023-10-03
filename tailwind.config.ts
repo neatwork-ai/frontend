@@ -23,6 +23,7 @@ const config: Config = {
       colors: {
         "green-dim": "#DAEBE7",
         "nav-blue": "#567CCA",
+        "alpha-blue": "#217AFF",
         "indicator-dot": "#AAAAAA",
       },
       borderRadius: {

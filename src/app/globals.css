@@ -84,3 +84,16 @@ nav {
   width: 100%;
   max-width: 800px;
 }
+
+@keyframes blink {
+  0%, 49% {
+      opacity: 1;
+  }
+  50%, 100% {
+      opacity: 0;
+  }
+}
+
+.typing-cursor {
+  animation: blink 1s infinite;
+}

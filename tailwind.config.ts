@@ -14,14 +14,17 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "glass-gradient":
           "linear-gradient(180deg, rgba(140, 155, 249, 0.5), rgba(255, 255, 255, 0))",
+        "gradient-dark-blue": "linear-gradient(to bottom, #111212, #0C265E)",
       },
       backgroundColor: {
-        "dark-blue": "#1E2C49",
+        "dark-blue": "#121315",
         glass: "rgba(255, 255, 255, 0.25)",
       },
       colors: {
         "green-dim": "#DAEBE7",
         "nav-blue": "#567CCA",
+        "alpha-blue": "#217AFF",
+        "indicator-dot": "#AAAAAA",
       },
       borderRadius: {
         xl: "20px",
@@ -29,6 +32,8 @@ const config: Config = {
       boxShadow: {
         glass: "0 4px 24px rgba(0, 0, 0, 0.25)",
         "nav-shadow": "0 4px 4px rgba(86, 124, 202, 0.5)",
+        strong:
+          "0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.5)",
       },
       backdropFilter: {
         blur: "blur(40px)",

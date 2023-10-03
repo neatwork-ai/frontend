@@ -1,16 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
+import { Router } from 'next/router';
 import GlassButton from './download';
 import Image from 'next/image';
-
-import { useState } from 'react';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { motion, useAnimation } from 'framer-motion';
 
-const Navbar = () => {
+interface NavbarProps {
+  isMobileView: boolean;
+  setIsMobileView: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Navbar = forwardRef<HTMLElement, NavbarProps>((props, ref) => {
+  const [pathname, setPathname] = useState('');
+
   const [activeLink, setActiveLink] = useState<string | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {isMobileView, setIsMobileView} = props; // Assuming 768px as the breakpoint for mobile view
 
   const controls = useAnimation();
 
   useEffect(() => {
+    // Record which route we're in
+    setPathname(window.location.pathname);
+
     // Start the rotation
     controls.start({
       rotate: [0, 360],
@@ -20,11 +34,35 @@ const Navbar = () => {
         ease: "linear"
       }
     });
-  }, [controls]);
+
+    const handleResize = () => {
+      if (window.innerWidth <= 866) {
+        console.log(setIsMobileView)
+        setIsMobileView(true);
+      } else {
+        setIsMobileView(false);
+        setIsMenuOpen(false); // Close mobile menu when not in mobile view
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    const handleRouteChange = (url: string) => {
+      setPathname(url);
+    };
+
+    Router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      Router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [controls, setIsMobileView]);
 
   return (
-    <nav className="fixed top-0 w-full z-50 flex justify-between items-center p-8 px-80 bg-dark-blue">
-      <div className="flex items-center">
+    <nav ref={ref} className="fixed top-0 w-full z-50 flex justify-between md:flex-row items-center p-8 md:px-40">
+      <Link href="/">
+        <div className="flex items-center">
         <motion.div className="relative w-10 h-10" animate={controls}>
           <Image 
              src="/assets/light-logo.svg" 
@@ -35,33 +73,102 @@ const Navbar = () => {
         </motion.div>
         <span className="logo-font ml-2">Neatwork.Ai</span>
       </div>
-      <div className="flex items-center space-x-4">
-        <a 
-          href="#neatcoder" 
-          className={`navbar-button ${activeLink === 'neatcoder' ? 'active' : ''}`}
+      </Link>
+      {isMobileView ? (
+        <div className="flex items-center">
+          <FontAwesomeIcon 
+            icon={faBars} 
+            onClick={() => setIsMenuOpen(!isMenuOpen)} 
+            className="cursor-pointer"
+            color="white" // Set color to white
+            size="2x"     // Adjust size. Change the value if you need it bigger or smaller.
+          />
+          {isMenuOpen && (
+    <div 
+        className="fixed top-0 left-0 w-full h-full bg-black z-10" 
+        // This covers the entire viewport with a dark transparent background
+    > 
+        <FontAwesomeIcon 
+            icon={faTimes} 
+            className="cursor-pointer text-white absolute top-4 right-4 text-2xl" 
+            // This positions the cross icon on the top right of the viewport and makes it white and larger
+            onClick={() => setIsMenuOpen(false)} 
+            // This closes the menu when the cross icon is clicked
+        />
+        <ul className="flex flex-col items-center justify-center h-full space-y-4">
+            <li>
+              <Link 
+                    href="/" 
+                    className={`navbar-button ${pathname === '/' ? 'active' : ''}`}
+                    onClick={() => {
+                        setActiveLink('neatcoder');
+                        setIsMenuOpen(false);
+                    }}
+                >
+                  neatcoder
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/about"
+                onClick={() => setActiveLink('about')}
+                className={`navbar-button ${pathname === '/about' ? 'active' : ''}`}
+              >
+                about us
+              </Link>
+            </li>
+            <li>
+            <Link 
+              href="/careers"
+              onClick={() => setActiveLink('careers')}
+              className={`navbar-button ${pathname === '/careers' ? 'active' : ''}`}
+            >
+              careers
+            </Link>
+            </li>
+            <li>
+            <Link 
+              href="https://marketplace.visualstudio.com/vscode"
+              className={`navbar-button`}
+            >
+              download
+            </Link>
+            </li>
+        </ul>
+      </div>
+    )}
+        </div>
+      ) : (
+        <div className="flex items-center space-x-4 mt-4 md:mt-0">
+          <div className="flex items-center space-x-4 mt-4 md:mt-0">
+        <Link 
+          href="/" 
           onClick={() => setActiveLink('neatcoder')}
+          className={`navbar-button ${pathname === '/' ? 'active' : ''}`}
         >
           neatcoder
-        </a>
-        <a 
-          href="#openbook" 
-          className={`navbar-button ${activeLink === 'openbook' ? 'active' : ''}`}
-          onClick={() => setActiveLink('openbook')}
+        </Link>
+        <Link 
+          href="/about"
+          onClick={() => setActiveLink('about')}
+          className={`navbar-button ${pathname === '/about' ? 'active' : ''}`}
         >
-          openbook
-        </a>
-        <a 
-          href="#contribute" 
-          className={`navbar-button ${activeLink === 'contribute' ? 'active' : ''}`}
-          onClick={() => setActiveLink('contribute')}
-        >
-          contribute
-        </a>
+          about us
+        </Link>
+        <Link 
+            href="/careers"
+            onClick={() => setActiveLink('careers')}
+            className={`navbar-button ${pathname === '/careers' ? 'active' : ''}`}
+          >
+            careers
+        </Link>
         <GlassButton />
       </div>
+        </div>
+      )}
     </nav>
   );
-};
+});
 
-
+Navbar.displayName = 'Navbar';
 export default Navbar;

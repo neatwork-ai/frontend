@@ -15,6 +15,7 @@ export function AutoPlayVideo({ filename = "/demos/neatcoder_showcase.mp4" }: Au
         const promise = video.play();
         if (promise !== undefined) {
           promise.then(() => {
+            // TODO: REMOVE
             // Autoplay started! Do nothing special
           }).catch(error => {
             // Autoplay was prevented. Update state so we can show a Play button or other UI.

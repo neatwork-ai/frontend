@@ -107,8 +107,7 @@ export default function Home() {
         sloganControls.start({ y: targetY });
 
         // Animation for the video
-        // const opacity = Math.min(1, Math.abs(targetY / 25));
-        const opacity = 1;
+        const opacity = Math.min(1, Math.abs(targetY / 25));
         console.log(scrollPhase)
         const scale_ = Math.min(1, Math.abs(targetY / 250));
         const scale = 0.5 + (0.5 * scale_);
@@ -249,7 +248,7 @@ export default function Home() {
                 )}
 
                 {/* Video */}
-                {(scrollPhase === 0 || scrollPhase === 1) && (
+                {(scrollPhase === 1) && (
                     <motion.div 
                     className="absolute top-1/2 left-0 w-full flex items-center justify-center mt-[-10%]"
                     initial={{ opacity: 0, scale: 0.5 }} // setting initial values

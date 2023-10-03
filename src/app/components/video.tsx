@@ -11,6 +11,11 @@ export function AutoPlayVideo({
 }: AutoPlayVideoProps) {
   const videoEl = useRef<HTMLVideoElement | null>(null);
   const [playFailed, setPlayFailed] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const handleLoaded = () => {
+    setIsLoaded(true);
+  };
 
   useEffect(() => {
     const video = videoEl.current;
@@ -19,7 +24,6 @@ export function AutoPlayVideo({
         const promise = video.play();
         if (promise !== undefined) {
           promise.then(() => {
-            // TODO: REMOVE
             // Autoplay started! Do nothing special
           }).catch(error => {
             // Autoplay was prevented. Update state so we can show a Play button or other UI.
@@ -39,10 +43,12 @@ export function AutoPlayVideo({
 
   return (
     <video
-      className="shadow-strong rounded-md autoPlayVideo"
-      autoPlay muted playsInline
-      preload="auto"
+      // className="shadow-strong rounded-md autoPlayVideo"
+      preload="metadata"
+      className={`rounded-md autoPlayVideo ${isLoaded ? "shadow-strong" : ""}`}
       poster={poster}
+      onLoadedData={handleLoaded}
+      autoPlay muted playsInline
     >
       <source src={filename} type="video/mp4" />
       Your browser does not support the video tag.

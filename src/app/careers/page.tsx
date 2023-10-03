@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/navBar';
 import React, { useRef } from 'react';
 import Footer from '../components/footer';
+import { AutoPlayVideo } from '../components/video';
 
 const Careers = () => {
     const [isMobileView, setIsMobileView] = React.useState<boolean>(typeof window !== 'undefined' ? window.innerWidth <= 768 : false);
@@ -15,6 +16,7 @@ const Careers = () => {
             <main
                 className="pt-32 sub-content flex flex-col items-center min-h-screen relative bg-gradient-dark-blue"
             >
+                <AutoPlayVideo />
                 <motion.div 
                     initial={{ opacity: 0, y: -50 }}
                     animate={{ opacity: 1, y: 0 }}

@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Navbar from './components/navBar';
 import { motion, useAnimation } from 'framer-motion';
-import AutoPlayVideo from './components/video';
+import { AutoPlayVideo, useVideoControl } from './components/video';
 import PaginationIndicator from './components/pagination';
 import Typist from '@/typist/Typist';
 import DownloadNowButton from './components/downloadNow';
@@ -42,6 +42,9 @@ export default function Home() {
     const navBarRef = useRef<HTMLElement | null>(null);
     const sloganRef = useRef<HTMLParagraphElement | null>(null);
 
+    const { videoRef: videoRef1, playVideo: playVideo1 } = useVideoControl();
+    const { videoRef: videoRef2, playVideo: playVideo2 } = useVideoControl();
+
     // Touchscreen refs
     const touchStartRef = useRef<number>(0);
     const touchEndRef = useRef<number>(0);
@@ -52,7 +55,8 @@ export default function Home() {
         setTargetY,
         lastY,
         navBarRef,
-        sloganRef
+        sloganRef,
+        playVideo1,
     );
 
     const handleTouchMove = useTouchMove(
@@ -63,7 +67,8 @@ export default function Home() {
         setTargetY,
         lastY,
         navBarRef,
-        sloganRef
+        sloganRef,
+        playVideo1,
     );
 
     useEffect(() => {
@@ -102,7 +107,8 @@ export default function Home() {
         sloganControls.start({ y: targetY });
 
         // Animation for the video
-        const opacity = Math.min(1, Math.abs(targetY / 25));
+        // const opacity = Math.min(1, Math.abs(targetY / 25));
+        const opacity = 1;
         console.log(scrollPhase)
         const scale_ = Math.min(1, Math.abs(targetY / 250));
         const scale = 0.5 + (0.5 * scale_);
@@ -261,6 +267,7 @@ export default function Home() {
                     exit={{ opacity: 0, scale: 0.9 }}
                 >
                     <AutoPlayVideo filename="/demos/background_streaming.mp4" />
+                    {/* <AutoPlayVideo videoRef={videoRef2} filename="/demos/background_streaming.mp4" /> */}
                 </motion.div>
                 )}
 

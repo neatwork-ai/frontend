@@ -9,6 +9,7 @@ const useWheelScroll = (
     lastY: React.MutableRefObject<number>,
     navBarRef: React.MutableRefObject<HTMLElement | null>,
     sloganRef: React.MutableRefObject<HTMLParagraphElement | null>,
+    playVideo: () => void
 ) => {
   const handleWheel = (e: WheelEvent) => {
     // The first step is to understand in which phase we are in
@@ -35,10 +36,8 @@ const useWheelScroll = (
 
             // == State Transition ==
                 if (newTarget === MAX_SHIFT) {
-                    console.log("scroll phase BEFORE: " + scrollPhase);
-                    console.log("Phase 0 -> 1");
                     setScrollPhase(1);
-                    console.log("scroll phase AFTER: " + scrollPhase);
+                    playVideo();
 
                     // Reset transition counter
                     globals.transitionCounter = 0;
@@ -61,7 +60,6 @@ const useWheelScroll = (
                     // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                     // scrolling phase
                     if (globals.transitionCounter >= DELTA_THRESHOLD) {
-                        console.log("Phase 1 -> 2");
                         setScrollPhase(2);
 
                         // Reset transition counter

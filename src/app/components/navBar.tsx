@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, forwardRef } from 'react';
 import { Router } from 'next/router';
 import GlassButton from './download';

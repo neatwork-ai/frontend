@@ -17,10 +17,10 @@ const useWheelScroll = (
     // To determine the direction of the wheel scroll, we examine the
     // deltaY property of the WheelEvent object in the event handler:
     let isForward = e.deltaY > 0 // is true if wheel was scrolled downwards and false if upwards
+    console.log("DELTA: " + e.deltaY);
 
     switch (scrollPhase) {
         case 0: {
-            console.log("DELTA: " + e.deltaY);
             // == Action Handling ==
             let MAX_SHIFT = setMaxShift(navBarRef, sloganRef, false)!; // False signals that we do not recalculate this
 
@@ -34,7 +34,6 @@ const useWheelScroll = (
             lastY.current = newTarget;
 
             // == State Transition ==
-
                 if (newTarget === MAX_SHIFT) {
                     console.log("scroll phase BEFORE: " + scrollPhase);
                     console.log("Phase 0 -> 1");

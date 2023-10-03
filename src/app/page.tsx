@@ -12,21 +12,7 @@ import ReactDOM from 'react-dom';
 import useWheelScroll from './hooks/wheel';
 import { setMaxShift } from './utils';
 import useTouchMove from './hooks/touch';
-
-let transitionCounter = 0;
-let deltaTMinusOne = 0;
-const DELTA_THRESHOLD = 7;
-
-const defaultSwipe = [
-    2,
-    16,
-    32,
-    74,
-    178,
-    332,
-    422,
-    504,
-];
+import { globals } from './globals';
 
 const footerVariants = {
     hidden: { y: '100%' },  // Start position (100% below the original position)
@@ -35,11 +21,15 @@ const footerVariants = {
 
 export default function Home() {
     const [scrollPhase, setScrollPhase] = useState(0);
+    // const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Assuming 768px as the breakpoint for mobile view
+    const [isMobileView, setIsMobileView] = useState(
+        typeof window !== "undefined" ? window.innerWidth <= 768 : false
+    );
 
     const handleDotClick = (index: number) => {
         setScrollPhase(index);
-        transitionCounter = 0;
-        deltaTMinusOne = 0;
+        globals.transitionCounter = 0;
+        globals.deltaTMinusOne = 0;
     };
 
     const [targetY, setTargetY] = useState(0);
@@ -51,8 +41,6 @@ export default function Home() {
     const parentRef = useRef<HTMLDivElement | null>(null);
     const navBarRef = useRef<HTMLElement | null>(null);
     const sloganRef = useRef<HTMLParagraphElement | null>(null);
-
-    // const scrollPhaseRef = useRef(scrollPhase);
 
     // Touchscreen refs
     const touchStartRef = useRef<number>(0);
@@ -81,22 +69,26 @@ export default function Home() {
     useEffect(() => {
         const handleResize = () => {
             setMaxShift(navBarRef, sloganRef, true);
+
+            // TODO: Ideally we would adjust the Y position of the slogan as we resize
+            // console.log("lastY.current: " + lastY.current)
+            // console.log("globals.maxAbsoluteShift: " + globals.maxAbsoluteShift)
+
+            // if (Math.abs(lastY.current) > Math.abs(globals.maxAbsoluteShift!)) {
+            //     const newTarget = globals.maxAbsoluteShift!;
+            //     setTargetY(newTarget);
+            //     globals.currentSloganPosition = newTarget;
+            // }
         };
 
         const handleTouchStart = (e: TouchEvent) => {
             touchStartRef.current = e.touches[0].clientY;
         };
         
-        const handleTouchEnd = () => {
-            // // Trigger the wheel handler with the calculated deltaY.
-            // let delay = 0;
-            // defaultSwipe.forEach((swipe) => {
-            //     setTimeout(() => {
-            //         const event = new WheelEvent('wheel', { deltaY: direction * swipe });
-            //         window.dispatchEvent(event);
-            //     }, delay); // or some other small delay in milliseconds
-            //     delay += 1;
-            // });
+        const handleTouchEnd = (e: TouchEvent) => {
+            // Consider changing scrollState here if needed instead of the Move handler
+            // let a = e.changedTouches[0].clientY;
+            // console.log(a);
         };
 
         // Attach callbacks to event listeners
@@ -110,8 +102,10 @@ export default function Home() {
         sloganControls.start({ y: targetY });
 
         // Animation for the video
-        const opacity = Math.min(1, Math.abs(targetY / 250));
-        const scale = 0.5 + (0.5 * opacity);
+        const opacity = Math.min(1, Math.abs(targetY / 25));
+        console.log(scrollPhase)
+        const scale_ = Math.min(1, Math.abs(targetY / 250));
+        const scale = 0.5 + (0.5 * scale_);
         videoControls.start({ opacity, scale });
 
         return () => {
@@ -121,17 +115,16 @@ export default function Home() {
             window.removeEventListener("touchend", handleTouchEnd);
             window.removeEventListener("resize", handleResize);
         };
-    }, [targetY, sloganControls, videoControls, scrollPhase]);
+    }, [targetY, sloganControls, videoControls, scrollPhase, handleWheel, handleTouchMove]);
 
     return (
         <>
             <div ref={parentRef}>
-            <Navbar ref={navBarRef} />
+            <Navbar isMobileView={isMobileView} setIsMobileView={setIsMobileView} ref={navBarRef} />
             <main 
-                style={{ overflowX: 'hidden' }}
                 className="main-content bg-gradient-dark-blue flex flex-col items-center justify-center min-h-screen relative"
             >
-            <PaginationIndicator totalSlides={4} currentSlide={scrollPhase} onDotClick={handleDotClick} />
+            <PaginationIndicator isMobileView={isMobileView} totalSlides={4} currentSlide={scrollPhase} onDotClick={handleDotClick} />
                 {/* Slogan */}
                 {scrollPhase === 0 && (
                     <motion.div
@@ -264,7 +257,7 @@ export default function Home() {
                     <motion.div 
                     className="absolute top-1/2 left-0 w-full flex items-center justify-center mt-[-10%]"
                     initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    animate={videoControls}
                     exit={{ opacity: 0, scale: 0.9 }}
                 >
                     <AutoPlayVideo filename="/demos/background_streaming.mp4" />

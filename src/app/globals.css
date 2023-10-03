@@ -55,8 +55,6 @@
   }
 }
 
-
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -66,9 +64,10 @@ body {
     )
     rgb(var(--background-start-rgb));
   font-family: 'Exo', sans-serif;
-  overflow: hidden; /* Hide scrollbars */
   display: flex; /* Flexbox declaration */
   flex-direction: column; /* Arrange children vertically */
+  scrollbar-width: none;
+  overflow: hidden;
 }
 
 nav {
@@ -77,7 +76,11 @@ nav {
 
 .main-content {
   flex-grow: 1; /* Allow content to take up remaining space */
-  overflow-y: auto; /* Enable scrolling for content */
+}
+
+.sub-content {
+  overflow: auto;
+  flex-grow: 1; /* Allow content to take up remaining space */
 }
 
 .video-wrapper {
@@ -96,4 +99,50 @@ nav {
 
 .typing-cursor {
   animation: blink 1s infinite;
+}
+
+/* styles.css or your CSS file */
+.autoPlayVideo {
+  width: 55%; 
+  /* This is the default size */
+}
+
+/* As the screen width gets smaller, we'll make the video take up a larger percentage of it */
+@media (max-width: 1200px) {
+  .autoPlayVideo {
+    width: 60%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .autoPlayVideo {
+    width: 70%;
+  }
+}
+
+@media (max-width: 800px) {
+  .autoPlayVideo {
+    width: 80%;
+  }
+}
+
+@media (max-width: 600px) {
+  .autoPlayVideo {
+    width: 90%;
+  }
+}
+
+@media (max-width: 400px) {
+  .autoPlayVideo {
+    width: 100%;
+  }
+}
+
+.scrollable-content::-webkit-scrollbar {
+  display: none;  /* for Chrome, Safari, and Opera */
+}
+
+.scrollable-content {
+  -ms-overflow-style: none;  /* for Internet Explorer and Edge */
+  scrollbar-width: none;  /* for Firefox */
 }

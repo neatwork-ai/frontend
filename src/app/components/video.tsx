@@ -7,7 +7,7 @@ interface AutoPlayVideoProps {
 
 export function AutoPlayVideo({
   filename = "/demos/neatcoder_showcase.mp4",
-  poster = "/path/to/your/neatcoder_showcase_thumb.jpg"
+  poster = "/demos/neatcoder_showcase_thumb.png"
 }: AutoPlayVideoProps) {
   const videoEl = useRef<HTMLVideoElement | null>(null);
   const [playFailed, setPlayFailed] = useState(false);

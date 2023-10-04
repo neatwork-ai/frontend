@@ -107,7 +107,6 @@ export default function Home() {
 
         // Animation for the video
         const opacity = Math.min(1, Math.abs(targetY / 25));
-        console.log(scrollPhase)
         const scale_ = Math.min(1, Math.abs(targetY / 250));
         const scale = 0.5 + (0.5 * scale_);
         videoControls.start({ opacity, scale });
@@ -264,7 +263,7 @@ export default function Home() {
                     animate={videoControls}
                     exit={{ opacity: 0, scale: 0.9 }}
                 >
-                    <AutoPlayVideo filename="/demos/background_streaming.mp4" poster="/demos/background_streaming_thumb.mp4" />
+                    <AutoPlayVideo filename="/demos/background_streaming.mp4" poster="/demos/background_streaming_thumb.png" />
                 </motion.div>
                 )}
 

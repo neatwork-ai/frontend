@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import Link from 'next/link';
+import { trackEvent } from '@/mixpanel/mixpanel';
 
 const Footer = () => {
   return (
@@ -17,10 +18,20 @@ const Footer = () => {
           <p>The future of work is Neat.</p>
           <a href="mailto:hello@neatwork.ai">hello@neatwork.ai</a>
           <div className="flex space-x-2 mt-2">
-          <a href="https://twitter.com/neatwork_ai" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://twitter.com/neatwork_ai" target="_blank" rel="noopener noreferrer"
+            onClick={() => {
+              trackEvent('Button clicked: twitter', { location: 'footer' });
+            }}
+          >
             <FontAwesomeIcon icon={faTwitter} />
           </a>
-          <a href="https://linkedin.com/company/neatwork-ai" target="_blank" rel="noopener noreferrer">
+          <a 
+            href="https://linkedin.com/company/neatwork-ai" target="_blank" rel="noopener noreferrer"
+            onClick={() => {
+              trackEvent('Button clicked: linkedin', { location: 'footer' });
+            }}
+          >
           <FontAwesomeIcon icon={faLinkedin} />
           </a>
           </div>
@@ -28,10 +39,30 @@ const Footer = () => {
 
         {/* Right Section */}
         <ul className="flex flex-col space-y-2">
-          <li><Link href="/">neatcoder</Link></li>
-          <li><Link href="/about">about us</Link></li>
-          <li><Link href="/careers">careers</Link></li>
-          <li><Link href="/privacy">privacy policy</Link></li>
+          <li><Link
+            href="/"
+            onClick={() => {
+              trackEvent('Button clicked: /', { page: '/', location: 'footer' });
+            }}
+          >neatcoder</Link></li>
+          <li><Link
+            href="/about"
+            onClick={() => {
+              trackEvent('Button clicked: about', { page: 'about', location: 'footer' });
+            }}
+          >about us</Link></li>
+          <li><Link
+            href="/careers"
+            onClick={() => {
+              trackEvent('Button clicked: careers', { page: 'careers', location: 'footer' });
+            }}
+          >careers</Link></li>
+          <li><Link
+            href="/privacy"
+            onClick={() => {
+              trackEvent('Button clicked: privacy', { page: 'privacy', location: 'footer' });
+            }}
+          >privacy policy</Link></li>
         </ul>
       </div>
         

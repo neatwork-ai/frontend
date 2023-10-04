@@ -1,10 +1,57 @@
-function AutoPlayVideo({ filename = "/demos/neatcoder_showcase.mp4" }) {
+import { useEffect, useRef, useState } from "react";
+
+interface AutoPlayVideoProps {
+  filename?: string;
+  poster?: string;
+}
+
+export function AutoPlayVideo({
+  filename = "/demos/neatcoder_showcase.mp4",
+  poster = "/demos/neatcoder_showcase_thumb.png"
+}: AutoPlayVideoProps) {
+  const videoEl = useRef<HTMLVideoElement | null>(null);
+  const [playFailed, setPlayFailed] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const handleLoaded = () => {
+    setIsLoaded(true);
+  };
+
+  useEffect(() => {
+    const video = videoEl.current;
+    if (video) {
+      const handleLoadedData = () => {
+        const promise = video.play();
+        if (promise !== undefined) {
+          promise.then(() => {
+            // Autoplay started! Do nothing special
+          }).catch(error => {
+            // Autoplay was prevented. Update state so we can show a Play button or other UI.
+            setPlayFailed(true);
+          });
+        }
+      };
+
+      video.addEventListener('loadeddata', handleLoadedData);
+
+      return () => {
+        video.removeEventListener('loadeddata', handleLoadedData);
+      };
+    }
+  }, []);
+
+
   return (
-    <video className="shadow-strong rounded-md autoPlayVideo" autoPlay muted loop>
+    <video
+      // className="shadow-strong rounded-md autoPlayVideo"
+      preload="metadata"
+      className={`rounded-md autoPlayVideo ${isLoaded ? "shadow-strong" : ""}`}
+      poster={poster}
+      onLoadedData={handleLoaded}
+      autoPlay muted playsInline
+    >
       <source src={filename} type="video/mp4" />
       Your browser does not support the video tag.
     </video>
   );
 }
-
-export default AutoPlayVideo;

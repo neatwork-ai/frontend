@@ -17,7 +17,6 @@ const useWheelScroll = (
     // To determine the direction of the wheel scroll, we examine the
     // deltaY property of the WheelEvent object in the event handler:
     let isForward = e.deltaY > 0 // is true if wheel was scrolled downwards and false if upwards
-    console.log("DELTA: " + e.deltaY);
 
     switch (scrollPhase) {
         case 0: {
@@ -35,10 +34,7 @@ const useWheelScroll = (
 
             // == State Transition ==
                 if (newTarget === MAX_SHIFT) {
-                    console.log("scroll phase BEFORE: " + scrollPhase);
-                    console.log("Phase 0 -> 1");
                     setScrollPhase(1);
-                    console.log("scroll phase AFTER: " + scrollPhase);
 
                     // Reset transition counter
                     globals.transitionCounter = 0;
@@ -61,7 +57,6 @@ const useWheelScroll = (
                     // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                     // scrolling phase
                     if (globals.transitionCounter >= DELTA_THRESHOLD) {
-                        console.log("Phase 1 -> 2");
                         setScrollPhase(2);
 
                         // Reset transition counter
@@ -75,9 +70,7 @@ const useWheelScroll = (
                     // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                     // scrolling phase
                     if (globals.transitionCounter >= DELTA_THRESHOLD) {
-                        console.log("Phase 1 -> 0");
                         setScrollPhase(0);
-                        console.log("scroll phase AFTER: " + scrollPhase);
 
                         // Reset transition counter
                         globals.transitionCounter = 0;
@@ -100,7 +93,6 @@ const useWheelScroll = (
                     // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                     // scrolling phase
                     if (globals.transitionCounter >= DELTA_THRESHOLD) {
-                        console.log("Phase 2 -> 3");
                         setScrollPhase(3);
                         // Reset transition counter
                         globals.transitionCounter = 0;
@@ -113,7 +105,6 @@ const useWheelScroll = (
                     // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                     // scrolling phase
                     if (globals.transitionCounter >= DELTA_THRESHOLD) {
-                        console.log("Phase 2 -> 1");
                         setScrollPhase(1);
 
                         // Reset transition counter
@@ -132,7 +123,6 @@ const useWheelScroll = (
                     // Whenever we hit 3 increasing deltas it means we are ready to move to the next
                     // scrolling phase
                     if (globals.transitionCounter >= DELTA_THRESHOLD) {
-                        console.log("Phase 2 -> 3");
                         setScrollPhase(2);
 
                         // Reset transition counter

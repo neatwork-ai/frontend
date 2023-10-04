@@ -3,12 +3,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Navbar from './components/navBar';
 import { motion, useAnimation } from 'framer-motion';
-import AutoPlayVideo from './components/video';
+import { AutoPlayVideo } from './components/video';
 import PaginationIndicator from './components/pagination';
 import Typist from '@/typist/Typist';
 import DownloadNowButton from './components/downloadNow';
 import Footer from './components/footer';
-import ReactDOM from 'react-dom';
 import useWheelScroll from './hooks/wheel';
 import { setMaxShift } from './utils';
 import useTouchMove from './hooks/touch';
@@ -21,7 +20,6 @@ const footerVariants = {
 
 export default function Home() {
     const [scrollPhase, setScrollPhase] = useState(0);
-    // const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Assuming 768px as the breakpoint for mobile view
     const [isMobileView, setIsMobileView] = useState(
         typeof window !== "undefined" ? window.innerWidth <= 768 : false
     );
@@ -52,7 +50,7 @@ export default function Home() {
         setTargetY,
         lastY,
         navBarRef,
-        sloganRef
+        sloganRef,
     );
 
     const handleTouchMove = useTouchMove(
@@ -63,7 +61,7 @@ export default function Home() {
         setTargetY,
         lastY,
         navBarRef,
-        sloganRef
+        sloganRef,
     );
 
     useEffect(() => {
@@ -103,7 +101,6 @@ export default function Home() {
 
         // Animation for the video
         const opacity = Math.min(1, Math.abs(targetY / 25));
-        console.log(scrollPhase)
         const scale_ = Math.min(1, Math.abs(targetY / 250));
         const scale = 0.5 + (0.5 * scale_);
         videoControls.start({ opacity, scale });
@@ -137,7 +134,7 @@ export default function Home() {
                         typingDelay={45} // Adjust this for typing speed
                         >
                         <h1 
-                            style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                            style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'normal', textAlign: 'center' }} 
                             className="text-4xl font-bold z-10"
                         >
                             <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
@@ -167,7 +164,7 @@ export default function Home() {
                         >
                             <Typist.Paste>
                                 <h1 
-                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'normal', textAlign: 'center' }} 
                                     className="text-4xl font-bold z-10"
                                 >
                                     <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
@@ -177,7 +174,7 @@ export default function Home() {
                             <Typist.Delay ms={500} />
                             <Typist.Backspace count={42} />
                                 <h1 
-                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'normal', textAlign: 'center' }} 
                                     className="text-4xl font-bold z-10"
                                 >
                                     <span style={{ color: '#567CCA' }}>Dynamically scaffold</span><br />
@@ -243,7 +240,7 @@ export default function Home() {
                 )}
 
                 {/* Video */}
-                {(scrollPhase === 0 || scrollPhase === 1) && (
+                {(scrollPhase === 1) && (
                     <motion.div 
                     className="absolute top-1/2 left-0 w-full flex items-center justify-center mt-[-10%]"
                     initial={{ opacity: 0, scale: 0.5 }} // setting initial values
@@ -260,7 +257,7 @@ export default function Home() {
                     animate={videoControls}
                     exit={{ opacity: 0, scale: 0.9 }}
                 >
-                    <AutoPlayVideo filename="/demos/background_streaming.mp4" />
+                    <AutoPlayVideo filename="/demos/background_streaming.mp4" poster="/demos/background_streaming_thumb.png" />
                 </motion.div>
                 )}
 

@@ -9,7 +9,6 @@ const useWheelScroll = (
     lastY: React.MutableRefObject<number>,
     navBarRef: React.MutableRefObject<HTMLElement | null>,
     sloganRef: React.MutableRefObject<HTMLParagraphElement | null>,
-    playVideo: () => void
 ) => {
   const handleWheel = (e: WheelEvent) => {
     // The first step is to understand in which phase we are in
@@ -36,7 +35,6 @@ const useWheelScroll = (
             // == State Transition ==
                 if (newTarget === MAX_SHIFT) {
                     setScrollPhase(1);
-                    playVideo();
 
                     // Reset transition counter
                     globals.transitionCounter = 0;

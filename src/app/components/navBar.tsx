@@ -39,7 +39,7 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>((props, ref) => {
     });
 
     const handleResize = () => {
-      if (window.innerWidth <= 866) {
+      if (window.innerWidth <= 768) {
         setIsMobileView(true);
       } else {
         setIsMobileView(false);

@@ -11,7 +11,6 @@ const useTouchMove = (
     lastY: React.MutableRefObject<number>,
     navBarRef: React.MutableRefObject<HTMLElement | null>,
     sloganRef: React.MutableRefObject<HTMLParagraphElement | null>,
-    playVideo: () => void
 ) => {
   const handleTouchMove = (e: TouchEvent) => {
     touchEndRef.current = e.touches[0].clientY;
@@ -41,7 +40,6 @@ const useTouchMove = (
 
                 if (newTarget === MAX_SHIFT) {
                     setScrollPhase(1);
-                    playVideo();
 
                     // Reset transition counter
                     globals.transitionCounter = 0;

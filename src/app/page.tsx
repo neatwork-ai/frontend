@@ -3,12 +3,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Navbar from './components/navBar';
 import { motion, useAnimation } from 'framer-motion';
-import { AutoPlayVideo, useVideoControl } from './components/video';
+import { AutoPlayVideo } from './components/video';
 import PaginationIndicator from './components/pagination';
 import Typist from '@/typist/Typist';
 import DownloadNowButton from './components/downloadNow';
 import Footer from './components/footer';
-import ReactDOM from 'react-dom';
 import useWheelScroll from './hooks/wheel';
 import { setMaxShift } from './utils';
 import useTouchMove from './hooks/touch';
@@ -41,9 +40,6 @@ export default function Home() {
     const navBarRef = useRef<HTMLElement | null>(null);
     const sloganRef = useRef<HTMLParagraphElement | null>(null);
 
-    const { videoRef: videoRef1, playVideo: playVideo1 } = useVideoControl();
-    const { videoRef: videoRef2, playVideo: playVideo2 } = useVideoControl();
-
     // Touchscreen refs
     const touchStartRef = useRef<number>(0);
     const touchEndRef = useRef<number>(0);
@@ -55,7 +51,6 @@ export default function Home() {
         lastY,
         navBarRef,
         sloganRef,
-        playVideo1,
     );
 
     const handleTouchMove = useTouchMove(
@@ -67,7 +62,6 @@ export default function Home() {
         lastY,
         navBarRef,
         sloganRef,
-        playVideo1,
     );
 
     useEffect(() => {
@@ -140,7 +134,7 @@ export default function Home() {
                         typingDelay={45} // Adjust this for typing speed
                         >
                         <h1 
-                            style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                            style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'normal', textAlign: 'center' }} 
                             className="text-4xl font-bold z-10"
                         >
                             <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
@@ -170,7 +164,7 @@ export default function Home() {
                         >
                             <Typist.Paste>
                                 <h1 
-                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'normal', textAlign: 'center' }} 
                                     className="text-4xl font-bold z-10"
                                 >
                                     <span style={{ color: '#567CCA' }}>Turn your IDE into an</span><br />
@@ -180,7 +174,7 @@ export default function Home() {
                             <Typist.Delay ms={500} />
                             <Typist.Backspace count={42} />
                                 <h1 
-                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 
+                                    style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'normal', textAlign: 'center' }} 
                                     className="text-4xl font-bold z-10"
                                 >
                                     <span style={{ color: '#567CCA' }}>Dynamically scaffold</span><br />

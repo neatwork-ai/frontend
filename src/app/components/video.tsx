@@ -55,16 +55,3 @@ export function AutoPlayVideo({
     </video>
   );
 }
-
-export function useVideoControl() {
-    const videoRef = useRef<HTMLVideoElement | null>(null);
-
-    const playVideo = () => {
-        if (videoRef.current) {
-            videoRef.current.play();
-        }
-    };
-
-    return { videoRef, playVideo };
-}
-  

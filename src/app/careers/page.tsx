@@ -46,7 +46,7 @@ const Careers = () => {
                     className="flex flex-col items-center"
                 >
                     <h1 
-                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', color: '#FFFFFF', marginTop: '80px' }} 
+                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', color: '#FFFFFF', marginTop: '50px' }} 
                         className="text-4xl font-bold z-10 mb-4"
                     >
                         Careers

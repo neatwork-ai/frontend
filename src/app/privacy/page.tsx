@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/navBar';
 import React, { ReactNode, useRef } from 'react';
 
-const Careers = () => {
+const Privacy = () => {
     const [isMobileView, setIsMobileView] = React.useState<boolean>(typeof window !== 'undefined' ? window.innerWidth <= 768 : false);
     const navBarRef = useRef<HTMLElement | null>(null);
     const [contentMaxHeight, setContentMaxHeight] = React.useState<number | undefined>(undefined);
@@ -45,7 +45,7 @@ const Careers = () => {
                     className="flex flex-col items-center"
                 >
                     <h1 
-                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', color: '#FFFFFF', marginTop: '80px' }} 
+                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', color: '#FFFFFF', marginTop: '50px' }} 
                         className="text-4xl font-bold z-10 mb-4"
                     >
                         Privacy Policy
@@ -212,4 +212,4 @@ const H4: React.FC<Props> = ({ children }) => {
     );
 };
 
-export default Careers;
+export default Privacy;

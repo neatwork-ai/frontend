@@ -9,7 +9,7 @@ const DownloadNowButton = () => {
   
   return (
     <div className= "p-4">
-        <a href="https://marketplace.visualstudio.com/vscode" target="_blank" rel="noopener noreferrer">
+        <a href="https://marketplace.visualstudio.com/items?itemName=NeatworkAi.neatcoder" target="_blank" rel="noopener noreferrer">
           <button
             onClick={handleButtonClick}
             style={{ fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', textAlign: 'center' }} 

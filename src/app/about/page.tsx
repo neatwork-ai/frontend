@@ -5,7 +5,7 @@ import Navbar from '../components/navBar';
 import React, { useRef } from 'react';
 import Paragraph from '../components/paragraph';
 
-const Careers = () => {
+const AboutUs = () => {
     const [isMobileView, setIsMobileView] = React.useState<boolean>(typeof window !== 'undefined' ? window.innerWidth <= 768 : false);
     const navBarRef = useRef<HTMLElement | null>(null);
     const [contentMaxHeight, setContentMaxHeight] = React.useState<number | undefined>(undefined);
@@ -46,7 +46,7 @@ const Careers = () => {
                     className="flex flex-col items-center"
                 >
                     <h1 
-                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', color: '#FFFFFF', marginTop: '80px' }} 
+                        style={{ fontSize: '36px', fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap', color: '#FFFFFF', marginTop: '50px' }} 
                         className="text-4xl font-bold z-10 mb-4"
                     >
                         About us
@@ -56,8 +56,10 @@ const Careers = () => {
                         className="scrollable-content overflow-auto px-4 sm:px-16 md:px-80 lg:px-80 xl:px-80 2xl:px-80"
                         style={{ maxHeight: `${contentMaxHeight}px` }}
                     >
-                        <Paragraph> Our mission is to be a core pilar in the transition from human capital to AI-augmented human capital as we seek to emerge as a frontrunner ushering in what will be the new economy. We are launching our journey by releasing Neatcoder, a VS Code extension that lets software developers turn their Integrated Development Environment into an AI Software Engineer. </Paragraph>
-                        <Paragraph> The launch of ChatGPT 3.5 and most lately GPT4, saw a massive shift in the developer code writting journey, however as it stands, developers are the middlemen performing the whole plumbing and are the agents that ultimately have full context of the project they are working on, as well as the context of the entire company&apos;s technological stack in which the project is being integrated with. Neatcoder aims to eliminate this effort by providing a middleware that not only allows developers to link external interfaces but also allows them to be abstracted away from the context-building phase as well as establishes interoperability between the channels of communication and the code editing process. The result is an AI Software Engineer that understands your codebase in real-time. </Paragraph>
+                        <Paragraph> Our mission is to be a core pillar in the transition from human capital to AI-augmented human capital as we aim to emerge as a frontrunner ushering in what will become the new economy. We are beginning our journey by releasing Neatcoder, a VS Code extension that enables software developers to transform their Integrated Development Environment into an AI Software Engineer. </Paragraph>
+                        <Paragraph> Before, developers would spend time writing a small number of keywords in search engines and the majority of time searching themselves for answers that fit their specific problems. With the rise of ChatGPT 3.5, and more recently GPT-4, there was a massive shift in the developer code writing journey. </Paragraph>
+                        <Paragraph> While LLMs now provide extremely customized answers tailored to the developer’s problem, developers find themselves writing 10 to 100 times more keywords than before, in order to provide LLMs with the proper context required to receive an accurate answer. Not only that, but developers now act as the middlemen, performing all the integration and possessing full context of the project they are working on, as well as the context of the entire company’s technological stack in which the project is being integrated. As result this is creating a great deal of developer fatigue. </Paragraph>
+                        <Paragraph> Neatcoder aims to eliminate this effort by providing a middleware that not only allows developers to link external interfaces but also lets them be abstracted away from the context-building phase. It also establishes interoperability between the channels of communication and the code editing process. The result is an AI Software Engineer that understands your codebase in real-time. </Paragraph>
                     </div>
                 </motion.div>
                 </div>
@@ -66,4 +68,4 @@ const Careers = () => {
     );
 }
 
-export default Careers;
+export default AboutUs;

@@ -139,7 +139,7 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>((props, ref) => {
               </li>
               <li>
               <Link 
-                href="https://marketplace.visualstudio.com/vscode"
+                href="https://marketplace.visualstudio.com/items?itemName=NeatworkAi.neatcoder"
                 onClick={() => {
                   trackEvent('Button clicked: download', { location: 'mobile-menu' });
                 }}

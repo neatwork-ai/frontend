@@ -69,9 +69,6 @@ export default function Home() {
             setMaxShift(navBarRef, sloganRef, true);
 
             // TODO: Ideally we would adjust the Y position of the slogan as we resize
-            // console.log("lastY.current: " + lastY.current)
-            // console.log("globals.maxAbsoluteShift: " + globals.maxAbsoluteShift)
-
             // if (Math.abs(lastY.current) > Math.abs(globals.maxAbsoluteShift!)) {
             //     const newTarget = globals.maxAbsoluteShift!;
             //     setTargetY(newTarget);

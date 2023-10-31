@@ -12,6 +12,7 @@ import useWheelScroll from './hooks/wheel';
 import { setMaxShift } from './utils';
 import useTouchMove from './hooks/touch';
 import { globals } from './globals';
+import { GoogleAnalytics } from 'nextjs-google-analytics';
 
 const footerVariants = {
     hidden: { y: '100%' },  // Start position (100% below the original position)
@@ -113,6 +114,7 @@ export default function Home() {
 
     return (
         <>
+            <GoogleAnalytics trackPageViews gaMeasurementId="G-Q1QRP44VV1" />
             <div ref={parentRef}>
             <Navbar isMobileView={isMobileView} setIsMobileView={setIsMobileView} ref={navBarRef} />
             <main 

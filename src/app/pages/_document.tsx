@@ -9,7 +9,8 @@ class MyDocument extends Document {
           <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
           {/* Google Tag Manager */}
           <Script async src="https://www.googletagmanager.com/gtag/js?id=G-Q1QRP44VV1"></Script>
-          <script
+          <Script
+            id="google-analytics"
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];

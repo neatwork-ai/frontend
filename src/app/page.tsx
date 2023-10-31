@@ -232,9 +232,9 @@ export default function Home() {
                 </motion.div>
                 )}
 
-                {scrollPhase === 3 && (
+                {/* {scrollPhase === 3 && (
                     <DownloadNowButton />
-                )}
+                )} */}
 
                 {/* Video */}
                 {(scrollPhase === 1) && (

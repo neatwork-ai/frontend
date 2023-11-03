@@ -6,7 +6,6 @@ import { motion, useAnimation } from 'framer-motion';
 import { AutoPlayVideo } from './components/video';
 import PaginationIndicator from './components/pagination';
 import Typist from '@/typist/Typist';
-import DownloadNowButton from './components/downloadNow';
 import Footer from './components/footer';
 import useWheelScroll from './hooks/wheel';
 import { setMaxShift } from './utils';

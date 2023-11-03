@@ -120,7 +120,6 @@ export default function Home() {
             <main 
                 className="main-content bg-gradient-dark-blue flex flex-col items-center justify-center min-h-screen relative"
             >
-            <PaginationIndicator isMobileView={isMobileView} totalSlides={4} currentSlide={scrollPhase} onDotClick={handleDotClick} />
                 {/* Slogan */}
                 {scrollPhase === 0 && (
                     <motion.div
@@ -259,6 +258,7 @@ export default function Home() {
                     <AutoPlayVideo filename="/demos/background_streaming.mp4" poster="/demos/background_streaming_thumb.png" />
                 </motion.div>
                 )}
+                <PaginationIndicator isMobileView={isMobileView} totalSlides={4} currentSlide={scrollPhase} onDotClick={handleDotClick} />
 
                 {scrollPhase === 3 && (
                   <motion.div 

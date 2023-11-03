@@ -1,5 +1,5 @@
 // hooks/wheel.ts
-import { DELTA_THRESHOLD, globals } from '../globals';
+import { globals } from '../globals';
 import { setMaxShift } from '../utils';
 
 const useWheelScroll = (

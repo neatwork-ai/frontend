@@ -35,7 +35,7 @@ interface LiquidDotProps {
 
 const LiquidDot: React.FC<LiquidDotProps> = ({ isActive }) => {
     const baseClasses = "rounded-full relative overflow-hidden bg-indicator-dot shadow-md filter blur-[0.5px] flex items-center justify-center"; // Added flex alignment classes
-    const sizeClasses = isActive ? "w-6 h-6" : "w-3 h-3";
+    const sizeClasses = isActive ? "w-5 h-5" : "w-2 h-2";
 
     return (
         <div className={`${baseClasses} ${sizeClasses}`}>

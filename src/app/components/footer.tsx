@@ -18,7 +18,9 @@ const Footer = () => {
             Join the Waitlist for Our Newsletter
           </h1>
         </div>
-        <NewsletterForm />
+        <div className="mb-4">
+          <NewsletterForm />
+        </div>
 
       <div className="flex justify-between w-full items-center">
         {/* Left Section */}

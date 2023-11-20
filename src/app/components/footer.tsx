@@ -14,7 +14,7 @@ const Footer = () => {
       {/* Top Section */}
 
         <div className="space-y-1 text-center">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-purple-200 to-purple-300 bg-clip-text">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-purple-100 to-purple-100 bg-clip-text">
             Join the Waitlist for Our Newsletter
           </h1>
         </div>

@@ -14,8 +14,13 @@ const Footer = () => {
       {/* Top Section */}
 
         <div className="space-y-1 text-center">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-            Join the Waitlist for Our Newsletter
+          <h1 className="text-4xl font-bold text-white">
+            Join the Waitlist
+          </h1>
+          <h1 className="text-4xl font-bold">
+            <span style={{color: 'rgb(33, 122, 255)'}}>
+              for Our Newsletter
+            </span>
           </h1>
         </div>
         <div className="mb-4">

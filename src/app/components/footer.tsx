@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import Link from 'next/link';
 import { trackEvent } from '@/mixpanel/mixpanel';
+import NewsletterForm from './newsletterForm';
 
 const Footer = () => {
   return (
@@ -11,6 +12,14 @@ const Footer = () => {
       className="w-full flex flex-col justify-between items-center p-8 text-white absolute bottom-0 left-0">
         
       {/* Top Section */}
+
+        <div className="space-y-1 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-purple-200 to-purple-300 bg-clip-text">
+            Join the Waitlist for Our Newsletter
+          </h1>
+        </div>
+        <NewsletterForm />
+
       <div className="flex justify-between w-full items-center">
         {/* Left Section */}
         <div className="flex flex-col space-y-2">

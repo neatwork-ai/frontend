@@ -42,7 +42,7 @@ function NewsletterForm() {
   };
 
   return (
-    <div className="flex flex-col space-y-4 md:w-[450px]">
+    <div className="flex flex-col space-y-4 md:w-[450px] mx-2 mb-4 md:mb-0">
       <form onSubmit={handleSubmit} className="mt-6">
         <div className="flex items-center gap-x-3 py-3 px-4 rounded-lg bg-[#F3F3FF]">
           <EnvelopeIcon className="w-6 h-6 text-black" />

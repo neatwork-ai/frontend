@@ -13,8 +13,8 @@ const Footer = () => {
         
       {/* Top Section */}
 
-      <div className="flex flex-col items-center justify-center space-y-2 text-center mb-4">
-        <h1 className="text-3xl sm:text-2xl md:text-3xl font-bold text-white">
+      <div className="flex flex-col items-center justify-center space-y-2 text-center mt-4 mb-4 sm:mr-4 sm:ml-4">
+        <h1 className="text-2xl sm:text-2xl md:text-3xl font-bold text-white">
             Join the Waitlist for Our Newsletter
         </h1>
         <NewsletterForm />

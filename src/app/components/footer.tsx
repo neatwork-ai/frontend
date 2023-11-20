@@ -11,14 +11,15 @@ const Footer = () => {
       style={{ fontFamily: 'Exo, sans-serif', whiteSpace: 'nowrap' }} 
       className="w-full flex flex-col justify-between items-center p-8 text-white absolute bottom-0 left-0">
         
-      {/* Top Section */}
+      {/* Newsletter Section */}
 
-      <div className="flex flex-col items-center justify-center space-y-2 text-center mt-4 mb-4 sm:mr-4 sm:ml-4">
+      <div className="flex flex-col items-center justify-center space-y-2 text-center mb-4">
         <h1 className="text-2xl sm:text-2xl md:text-3xl font-bold text-white">
             Join the Waitlist for Our Newsletter
         </h1>
         <NewsletterForm />
       </div>
+
       <div className="flex justify-between w-full items-center">
         {/* Left Section */}
         <div className="flex flex-col space-y-2">

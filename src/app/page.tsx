@@ -12,6 +12,7 @@ import { setMaxShift } from './utils';
 import useTouchMove from './hooks/touch';
 import { globals } from './globals';
 import { GoogleAnalytics } from 'nextjs-google-analytics';
+import Hotjar from '@hotjar/browser';
 
 const footerVariants = {
     hidden: { y: '100%' },  // Start position (100% below the original position)
@@ -110,6 +111,13 @@ export default function Home() {
             window.removeEventListener("resize", handleResize);
         };
     }, [targetY, sloganControls, videoControls, scrollPhase, handleWheel, handleTouchMove]);
+
+    useEffect(() => {
+        const siteId = 3744349;
+        const hotjarVersion = 6;
+
+        Hotjar.init(siteId, hotjarVersion)
+    });
 
     return (
         <>

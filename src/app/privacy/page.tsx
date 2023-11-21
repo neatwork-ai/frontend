@@ -107,6 +107,7 @@ const Privacy = () => {
                                     <li>- Google Cloud - for cloud-based data storage</li>
                                     <li>- Sentry - for application observation and error detection</li>
                                     <li>- MixPanel - for analytical insights</li>
+                                    <li>- HotJar - for heatmaps</li>
                                 </ul>
                             </Pg>
                             <Pg>Our service providers and partners are contractually obligated to uphold the confidentiality of any personal data they receive from us and are restricted from utilizing this data for any reason other than executing services under Neatwork&apos; guidance.</Pg>

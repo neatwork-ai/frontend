@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
+     "gsap": "^3.11.5",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
@@ -32,6 +35,7 @@
     "@types/react": "^18.2.33",
     "@types/tailwindcss": "^3.1.0",
     "eslint": "^8.49.0",
-    "eslint-plugin-tailwindcss": "^3.13.0"
+    "eslint-plugin-tailwindcss": "^3.13.0",
+    "@types/mailchimp__mailchimp_marketing": "^3.0.9"
   }
 }

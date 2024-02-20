@@ -1,0 +1,41 @@
+/* Add this at the top of your CSS file to ensure the Inter font is available */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+
+body {
+    background-color: #D7E0FC;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    font-family: 'Inter', sans-serif; /* Setting Inter font for the navigation bar */
+}
+
+.nav-buttons button {
+    /* margin-left: 20px; */
+    padding: 10px 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif; /* Setting Inter font for the navigation bar */
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.card {
+    width: 100%;
+    margin: 10px 0;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
